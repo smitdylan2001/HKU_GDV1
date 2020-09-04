@@ -42,7 +42,7 @@ public static class EventManager
     /// <param name="type"></param>
     /// <param name="function"></param>
     public static void RemoveListener(EventType type, System.Action function)
-    {
+    {   
         if (eventDictionary.ContainsKey(type) && eventDictionary[type] != null)
         {
             eventDictionary[type] -= function;
@@ -55,6 +55,7 @@ public static class EventManager
     /// <param name="type"></param>
     public static void InvokeEvent(EventType type)
     {
+        Debug.Log(eventDictionary[type]);
         eventDictionary[type]?.Invoke();
     }
 }
