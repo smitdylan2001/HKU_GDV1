@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/// <summary>
-/// This is the only monobehaviour in the game
-/// </summary>
 
 public enum GameState
 {
@@ -12,6 +9,9 @@ public enum GameState
 	IS_GAMEOVER = 2
 }
 
+/// <summary>
+/// This is the only monobehaviour in the game
+/// </summary>
 public class GameManager : MonoBehaviour
 {
 	public System.Action _startGame;
@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
 	/// <summary> This is the state the game is currently in </summary>
 	public static GameState CURRENT_GAME_STATE { get; set; }
 
-	private Player _player { get; set; }
+	/// <summary> Player Instance Reference. </summary>
+	public Player _player { get; private set; }
 
 	void Start()
 	{
@@ -64,28 +65,21 @@ public class GameManager : MonoBehaviour
 		_logicUpdate += _player.OnInput;
 
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, _logicUpdate);
-
 	}
 
 	private void PopulateGamePhysicsEvent()
 	{
 		Debug.Log("populate physics");
 
-		_physicsUpdate += TestMethod;
 		_physicsUpdate += _player.PhysicsUpdate;
 
 		EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, _physicsUpdate);
 	}
 
-	private void TestMethod()
-	{
-		Debug.Log("Physics updated...");
-	}
-
 	private void CreatePlayer()
 	{
-		//TODO: Instantiate player (in scene)
+		Debug.Log("Player Created!");
+		
 		_player = new Player();
-
 	}
 }
