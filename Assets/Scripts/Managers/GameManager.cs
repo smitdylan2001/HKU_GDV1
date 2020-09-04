@@ -7,56 +7,85 @@ using UnityEngine;
 
 public enum GameState
 {
-    IS_PLAYING = 0,
-    IS_PAUSED = 1,
-    IS_GAMEOVER = 2 
+	IS_PLAYING = 0,
+	IS_PAUSED = 1,
+	IS_GAMEOVER = 2
 }
 
 public class GameManager : MonoBehaviour
 {
-    public System.Action _startGame;
-    public System.Action _physicsUpdate;
+	public System.Action _startGame;
+	public System.Action _logicUpdate;
+	public System.Action _physicsUpdate;
 
-    /// <summary> This is the state the game is currently in </summary>
-    public static GameState CURRENT_GAME_STATE { get; set; }
+	/// <summary> This is the state the game is currently in </summary>
+	public static GameState CURRENT_GAME_STATE { get; set; }
 
-    void Start()
-    {
-        Debug.Log("UnityEngine start");
-        PopulateGameStartEvent();
-        PopulateGamePhysicsEvent();
-        EventManager.InvokeEvent(EventType.ON_GAME_START);
-    }
-    
-    void FixedUpdate()
-    {
-        Debug.Log("UnityEngine fixedupdate");
-        EventManager.InvokeEvent(EventType.ON_PHYSICS_UPDATE);
-    }
+	private Player _player { get; set; }
 
-    private void PopulateGameStartEvent()
-    {
-        Debug.Log("populate start");
-        EventManager.AddListener(EventType.ON_GAME_START, _startGame);
-        _startGame += CreatePlayer;
-    }
+	void Start()
+	{
+		Debug.Log("UnityEngine start");
+		PopulateGameStartEvent();
 
-    private void PopulateGamePhysicsEvent()
-    {
-        Debug.Log("populate physics");
-        EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, _physicsUpdate);
-        _physicsUpdate += TestMethod;
-    }
+		EventManager.InvokeEvent(EventType.ON_GAME_START);
 
-    private void TestMethod()
-    {
-        Debug.Log("Physics updated...");
+		// Populate physics and Logic last because we need all the start objects to be initialized first before we can call their functions.
+		// a.k.a. Null pointer when this isn't placed as last on Start.
+		PopulateGameLogicUpdateEvent();
+		PopulateGamePhysicsEvent();
+	}
 
-    }
+	private void Update()
+	{
+		EventManager.InvokeEvent(EventType.ON_LOGIC_UPDATE);
+	}
 
-    private void CreatePlayer()
-    {
-        //TODO: Instantiate player (in scene)
-        Debug.Log("Game Started");
-    }
+	void FixedUpdate()
+	{
+		Debug.Log("UnityEngine fixedupdate");
+
+		EventManager.InvokeEvent(EventType.ON_PHYSICS_UPDATE);
+	}
+
+	private void PopulateGameStartEvent()
+	{
+		Debug.Log("populate start");
+
+		_startGame += CreatePlayer;
+
+		EventManager.AddListener(EventType.ON_GAME_START, _startGame);
+	}
+
+	private void PopulateGameLogicUpdateEvent()
+	{
+		Debug.Log("populate Logic Update");
+
+		_logicUpdate += _player.OnInput;
+
+		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, _logicUpdate);
+
+	}
+
+	private void PopulateGamePhysicsEvent()
+	{
+		Debug.Log("populate physics");
+
+		_physicsUpdate += TestMethod;
+		_physicsUpdate += _player.PhysicsUpdate;
+
+		EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, _physicsUpdate);
+	}
+
+	private void TestMethod()
+	{
+		Debug.Log("Physics updated...");
+	}
+
+	private void CreatePlayer()
+	{
+		//TODO: Instantiate player (in scene)
+		_player = new Player();
+
+	}
 }
