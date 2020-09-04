@@ -19,11 +19,19 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        CURRENT_GAME_STATE = GameState.IS_PLAYING;
+        //CURRENT_GAME_STATE = GameState.IS_PLAYING;
+        EventManager<GameManager>.AddListener(EventType.ON_GAME_START, OnGameStart);
+        EventManager<GameManager>.InvokeEvent(EventType.ON_GAME_START, this);
     }
     
     void Update()
     {
         
+    }
+
+    private void OnGameStart(GameManager manager)
+    {
+        //TODO: Instantiate player (in scene)
+
     }
 }
