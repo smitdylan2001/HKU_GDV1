@@ -4,7 +4,7 @@
 /// The Player Class holds all the members and functionality for the Player Object.
 /// It does not 
 /// </summary>
-public class Player
+public class Player : IRigidBody
 {
 	/// <summary> The Health member of the player. </summary>
 	public int _health { get; private set; }
@@ -26,12 +26,9 @@ public class Player
 	/// <summary>
 	/// Constructor of the Player Class.
 	/// </summary>
-	/// <param name="health"> Starting Health of the player. </param>
-	/// <param name="rotation"> Starting Rotation of the player. </param>
-	public Player(int health, float rotation, float thrustPower, float rotationPower, Sprite sprite)
+	public Player(int health = 100, float thrustPower = 50, float rotationPower = 150, Sprite sprite = null)
 	{
 		_health = health;
-		_rotation = rotation;
 		_thrustPower = thrustPower;
 		_rotationPower = rotationPower;
 		_sprite = sprite;
@@ -46,21 +43,34 @@ public class Player
 		playerGO.AddComponent<SpriteRenderer>();
 		_spriteRenderer = playerGO.GetComponent<SpriteRenderer>();
 	}
+	/// <summary>
+	/// IRigidBody Implementation.
+	/// </summary>
+	public void PhysicsUpdate()
+	{
+		Thrust();
+		Rotate();
+	}
 
 	/// <summary>
 	/// Applies Forward Thrust to the player.
 	/// </summary>
-	public void Thrust()
+	private void Thrust()
 	{
-		_rb2d.AddForce(_rb2d.transform.up * _thrustPower * Time.deltaTime);
+		//TODO Use a Custom Input manager instead of the built-in one.
+
+		if(Input.GetKey(KeyCode.W)) _rb2d.AddForce(_rb2d.transform.up * _thrustPower * Time.deltaTime);
 	}
 
 	/// <summary>
 	/// Rotates the Player on Input.
 	/// </summary>
-	/// <param name="rotationAxis"> The Rotation Axis. </param>
-	public void Rotate(float rotationAxis)
+	private void Rotate()
 	{
-		_rb2d.MoveRotation(_rb2d.rotation -= rotationAxis * _rotationPower * Time.deltaTime);
+		//TODO Use a Custom Input manager instead of the built-in one.
+
+		_rotation = Input.GetAxisRaw("Horizontal");
+		_rb2d.MoveRotation(_rb2d.rotation -= _rotation * _rotationPower * Time.deltaTime);
 	}
+
 }
