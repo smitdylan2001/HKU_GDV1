@@ -14,24 +14,49 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    public System.Action _startGame;
+    public System.Action _physicsUpdate;
+
     /// <summary> This is the state the game is currently in </summary>
     public static GameState CURRENT_GAME_STATE { get; set; }
 
     void Start()
     {
-        //CURRENT_GAME_STATE = GameState.IS_PLAYING;
-        EventManager<GameManager>.AddListener(EventType.ON_GAME_START, OnGameStart);
-        EventManager<GameManager>.InvokeEvent(EventType.ON_GAME_START, this);
+        Debug.Log("UnityEngine start");
+        PopulateGameStartEvent();
+        PopulateGamePhysicsEvent();
+        EventManager.InvokeEvent(EventType.ON_GAME_START);
     }
     
-    void Update()
+    void FixedUpdate()
     {
-        
+        Debug.Log("UnityEngine fixedupdate");
+        EventManager.InvokeEvent(EventType.ON_PHYSICS_UPDATE);
     }
 
-    private void OnGameStart(GameManager manager)
+    private void PopulateGameStartEvent()
+    {
+        Debug.Log("populate start");
+        EventManager.AddListener(EventType.ON_GAME_START, _startGame);
+        _startGame += CreatePlayer;
+    }
+
+    private void PopulateGamePhysicsEvent()
+    {
+        Debug.Log("populate physics");
+        EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, _physicsUpdate);
+        _physicsUpdate += TestMethod;
+    }
+
+    private void TestMethod()
+    {
+        Debug.Log("Physics updated...");
+
+    }
+
+    private void CreatePlayer()
     {
         //TODO: Instantiate player (in scene)
-
+        Debug.Log("Game Started");
     }
 }

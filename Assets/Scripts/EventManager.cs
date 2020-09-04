@@ -8,7 +8,8 @@ using UnityEngine;
 public enum EventType // EventType overwrites UnityEngine.EventType
 {
     ON_GAME_START = 0,
-    ON_GAME_END = 1
+    ON_GAME_END = 1,
+    ON_PHYSICS_UPDATE = 2
 }
 /// <summary>
 /// The manager that handles all the events without generic (Such as game start and end)
@@ -32,6 +33,8 @@ public static class EventManager
             eventDictionary.Add(type, null);
         }
         eventDictionary[type] += function;
+
+
     }
     /// <summary>
     /// Removes a listener
