@@ -2,9 +2,8 @@
 
 /// <summary>
 /// The Player Class holds all the members and functionality for the Player Object.
-/// It does not 
 /// </summary>
-public class Player : IRigidBody
+public class Player : IRigidBody, IPlayable
 {
 	/// <summary> The Health member of the player. </summary>
 	public int _health { get; private set; }
@@ -17,7 +16,6 @@ public class Player : IRigidBody
 
 	/// <summary> The sprite of the Player Gameobject. </summary>
 	public Sprite _sprite { get; private set; }
-
 	/// <summary> The Rigidbody2D Component of the Player. </summary>
 	public Rigidbody2D _rb2d { get; private set; }
 	/// <summary> The SpriteRenderer Component of the Player. </summary>
@@ -49,6 +47,12 @@ public class Player : IRigidBody
 	public void PhysicsUpdate()
 	{
 		Thrust();
+	}
+	/// <summary>
+	/// IPlayable ONInput Implemention.
+	/// </summary>
+	public void OnInput()
+	{
 		Rotate();
 	}
 
