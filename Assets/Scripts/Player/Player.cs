@@ -13,7 +13,9 @@ public class Player : IRigidBody, IPlayable
 	public float _thrustPower { get; private set; }
 	/// <summary> The Rotation Power of the player. </summary>
 	public float _rotationPower { get; private set; }
-
+    /// <summary> The Rotation Power of the player. </summary>
+	public float _bulletSpeed { get; private set; }
+    
 	/// <summary> The sprite of the Player Gameobject. </summary>
 	public Sprite _sprite { get; private set; }
 	/// <summary> The Rigidbody2D Component of the Player. </summary>
@@ -24,12 +26,13 @@ public class Player : IRigidBody, IPlayable
 	/// <summary>
 	/// Constructor of the Player Class.
 	/// </summary>
-	public Player(int health = 100, float thrustPower = 50, float rotationPower = 150, Sprite sprite = null)
+	public Player(int health = 100, float thrustPower = 50, float rotationPower = 150, float bulletSpeed = 10, Sprite sprite = null)
 	{
 		_health = health;
 		_thrustPower = thrustPower;
 		_rotationPower = rotationPower;
 		_sprite = sprite;
+        _bulletSpeed = bulletSpeed;
 
 		GameObject playerGO = new GameObject();
 
@@ -77,4 +80,14 @@ public class Player : IRigidBody, IPlayable
 		_rb2d.MoveRotation(_rb2d.rotation -= _rotation * _rotationPower * Time.deltaTime);
 	}
 
+    private void Shoot()
+    {
+        //TODO Use a Custom Input manager instead of the built-in one.
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Bullet bullet = new Bullet();
+            bullet._pos = _rb2d.transform.position;
+            bullet._rb2d.AddForce(Vector3.forward * _bulletSpeed);
+        }
+    }
 }
