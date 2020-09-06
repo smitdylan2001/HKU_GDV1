@@ -1,0 +1,166 @@
+\hypertarget{class_player}{}\doxysection{Player Class Reference}
+\label{class_player}\index{Player@{Player}}
+
+
+The \mbox{\hyperlink{class_player}{Player}} Class holds all the members and functionality for the \mbox{\hyperlink{class_player}{Player}} Object.  
+
+
+Inheritance diagram for Player\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_player}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_player_aab180d122c9faa059d6cae117555ff63}{Player}} (int health=100, float thrust\+Power=50, float rotation\+Power=150, Sprite sprite=null)
+\begin{DoxyCompactList}\small\item\em Constructor of the \mbox{\hyperlink{class_player}{Player}} Class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_a55a596cafa7a9894adcca3e322543784}{Physics\+Update}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{interface_i_rigid_body}{I\+Rigid\+Body}} Implementation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_a86f4184b9b44b95f1e362c719798036b}{On\+Input}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{interface_i_playable}{I\+Playable}} O\+N\+Input Implemention. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_player_aceb20a4960d6b121590f4ecd514f83b9}{\+\_\+health}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Health member of the player. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_a1a8030973456569dd8b06dd910ecb63b}{\+\_\+rotation}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Rotation member of the player. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_af37c37805ef1943266b63dd1681134fa}{\+\_\+thrust\+Power}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Thrusting Power of the player. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_afc7947ffd1b9c4f47959512813165c40}{\+\_\+rotation\+Power}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Rotation Power of the player. \end{DoxyCompactList}\item 
+Sprite \mbox{\hyperlink{class_player_a2c62b3a17aeb401f22465373a292e74a}{\+\_\+sprite}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The sprite of the \mbox{\hyperlink{class_player}{Player}} Gameobject. \end{DoxyCompactList}\item 
+Rigidbody2D \mbox{\hyperlink{class_player_ae3aff93fc5962f9932829a7380029ba8}{\+\_\+rb2d}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Rigidbody2D Component of the \mbox{\hyperlink{class_player}{Player}}. \end{DoxyCompactList}\item 
+Sprite\+Renderer \mbox{\hyperlink{class_player_ab5314141b233b02f551acd01dd30fa98}{\+\_\+sprite\+Renderer}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Sprite\+Renderer Component of the \mbox{\hyperlink{class_player}{Player}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_player}{Player}} Class holds all the members and functionality for the \mbox{\hyperlink{class_player}{Player}} Object. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_player_aab180d122c9faa059d6cae117555ff63}\label{class_player_aab180d122c9faa059d6cae117555ff63}} 
+\index{Player@{Player}!Player@{Player}}
+\index{Player@{Player}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{Player()}{Player()}}
+{\footnotesize\ttfamily Player.\+Player (\begin{DoxyParamCaption}\item[{int}]{health = {\ttfamily 100},  }\item[{float}]{thrust\+Power = {\ttfamily 50},  }\item[{float}]{rotation\+Power = {\ttfamily 150},  }\item[{Sprite}]{sprite = {\ttfamily null} }\end{DoxyParamCaption})}
+
+
+
+Constructor of the \mbox{\hyperlink{class_player}{Player}} Class. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_player_a86f4184b9b44b95f1e362c719798036b}\label{class_player_a86f4184b9b44b95f1e362c719798036b}} 
+\index{Player@{Player}!OnInput@{OnInput}}
+\index{OnInput@{OnInput}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{OnInput()}{OnInput()}}
+{\footnotesize\ttfamily void Player.\+On\+Input (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{interface_i_playable}{I\+Playable}} O\+N\+Input Implemention. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_playable_aae4029ec6aef6988835998e2eabd99ea}{I\+Playable}}.
+
+\mbox{\Hypertarget{class_player_a55a596cafa7a9894adcca3e322543784}\label{class_player_a55a596cafa7a9894adcca3e322543784}} 
+\index{Player@{Player}!PhysicsUpdate@{PhysicsUpdate}}
+\index{PhysicsUpdate@{PhysicsUpdate}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{PhysicsUpdate()}{PhysicsUpdate()}}
+{\footnotesize\ttfamily void Player.\+Physics\+Update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{interface_i_rigid_body}{I\+Rigid\+Body}} Implementation. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_rigid_body_a4c6d13ed55d578dbf5b9d47ce86825b8}{I\+Rigid\+Body}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_player_aceb20a4960d6b121590f4ecd514f83b9}\label{class_player_aceb20a4960d6b121590f4ecd514f83b9}} 
+\index{Player@{Player}!\_health@{\_health}}
+\index{\_health@{\_health}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{\_health}{\_health}}
+{\footnotesize\ttfamily int Player.\+\_\+health\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+The Health member of the player. 
+
+\mbox{\Hypertarget{class_player_ae3aff93fc5962f9932829a7380029ba8}\label{class_player_ae3aff93fc5962f9932829a7380029ba8}} 
+\index{Player@{Player}!\_rb2d@{\_rb2d}}
+\index{\_rb2d@{\_rb2d}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{\_rb2d}{\_rb2d}}
+{\footnotesize\ttfamily Rigidbody2D Player.\+\_\+rb2d\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+The Rigidbody2D Component of the \mbox{\hyperlink{class_player}{Player}}. 
+
+\mbox{\Hypertarget{class_player_a1a8030973456569dd8b06dd910ecb63b}\label{class_player_a1a8030973456569dd8b06dd910ecb63b}} 
+\index{Player@{Player}!\_rotation@{\_rotation}}
+\index{\_rotation@{\_rotation}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{\_rotation}{\_rotation}}
+{\footnotesize\ttfamily float Player.\+\_\+rotation\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+The Rotation member of the player. 
+
+\mbox{\Hypertarget{class_player_afc7947ffd1b9c4f47959512813165c40}\label{class_player_afc7947ffd1b9c4f47959512813165c40}} 
+\index{Player@{Player}!\_rotationPower@{\_rotationPower}}
+\index{\_rotationPower@{\_rotationPower}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{\_rotationPower}{\_rotationPower}}
+{\footnotesize\ttfamily float Player.\+\_\+rotation\+Power\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+The Rotation Power of the player. 
+
+\mbox{\Hypertarget{class_player_a2c62b3a17aeb401f22465373a292e74a}\label{class_player_a2c62b3a17aeb401f22465373a292e74a}} 
+\index{Player@{Player}!\_sprite@{\_sprite}}
+\index{\_sprite@{\_sprite}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{\_sprite}{\_sprite}}
+{\footnotesize\ttfamily Sprite Player.\+\_\+sprite\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+The sprite of the \mbox{\hyperlink{class_player}{Player}} Gameobject. 
+
+\mbox{\Hypertarget{class_player_ab5314141b233b02f551acd01dd30fa98}\label{class_player_ab5314141b233b02f551acd01dd30fa98}} 
+\index{Player@{Player}!\_spriteRenderer@{\_spriteRenderer}}
+\index{\_spriteRenderer@{\_spriteRenderer}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{\_spriteRenderer}{\_spriteRenderer}}
+{\footnotesize\ttfamily Sprite\+Renderer Player.\+\_\+sprite\+Renderer\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+The Sprite\+Renderer Component of the \mbox{\hyperlink{class_player}{Player}}. 
+
+\mbox{\Hypertarget{class_player_af37c37805ef1943266b63dd1681134fa}\label{class_player_af37c37805ef1943266b63dd1681134fa}} 
+\index{Player@{Player}!\_thrustPower@{\_thrustPower}}
+\index{\_thrustPower@{\_thrustPower}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{\_thrustPower}{\_thrustPower}}
+{\footnotesize\ttfamily float Player.\+\_\+thrust\+Power\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+The Thrusting Power of the player. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+F\+:/\+Unity\+Priority\+Projects/\+H\+K\+U\+\_\+\+G\+D\+V1/\+Assets/\+Scripts/\+Player/\mbox{\hyperlink{_player_8cs}{Player.\+cs}}\end{DoxyCompactItemize}
