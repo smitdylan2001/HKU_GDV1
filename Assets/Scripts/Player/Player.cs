@@ -24,15 +24,15 @@ public class Player : IRigidBody, IPlayable
 	/// <summary>
 	/// Constructor of the Player Class.
 	/// </summary>
-	public Player(int health = 100, float thrustPower = 50, float rotationPower = 150, Sprite sprite = null)
+	public Player(int health = 100, float thrustPower = 50, float rotationPower = 150)
 	{
 		_health = health;
 		_thrustPower = thrustPower;
 		_rotationPower = rotationPower;
-		_sprite = sprite;
+
+		Sprite sprite = Resources.Load<Sprite>("Sprites/Player");
 
 		GameObject playerGO = new GameObject();
-
 		playerGO.name = "Player";
 
 		Rigidbody2D rb2d = playerGO.AddComponent<Rigidbody2D>();
@@ -40,6 +40,7 @@ public class Player : IRigidBody, IPlayable
 
 		SpriteRenderer spriteRenderer = playerGO.AddComponent<SpriteRenderer>();
 		_spriteRenderer = spriteRenderer;
+		_spriteRenderer.sprite = sprite;
 	}
 	/// <summary>
 	/// IRigidBody Implementation.
@@ -85,7 +86,7 @@ public class Player : IRigidBody, IPlayable
 		//TODO Use a Custom Input manager instead of the built-in one.
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			Bullet bullet = new Bullet(_rb2d.transform.position, _rb2d.rotation, 300f, null);
+			Bullet bullet = new Bullet(_rb2d.transform.position, _rb2d.transform.rotation, 300f);
 		}
 	}
 }
