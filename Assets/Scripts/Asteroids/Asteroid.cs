@@ -5,14 +5,15 @@ using UnityEngine.UIElements;
 
 public class Asteroid : IRigidBody, IDamageable
 {
+    public delegate void MyDelegate(Asteroid _asteroidClass);
+    public static event MyDelegate OnDestroy;
+
     private float _size { get; set; }
     private Vector2 _movementDirection { get; set; }
     private GameObject _asteroid { get; set; }
     private Rigidbody2D _rigidbody { get; set; }
 
-    /// <summary>
-    /// Create a new GameObject and give it all components to work as an asteroid
-    /// </summary>
+    /// <summary> Create a new GameObject and give it all components to work as an asteroid </summary>
     public Asteroid(float size, Vector2 startPos, float direction, float speed, Sprite sprite)
     {
         _size = size;
@@ -30,37 +31,31 @@ public class Asteroid : IRigidBody, IDamageable
         _movementDirection = new Vector2(direction * speed, direction * speed); //FIXME add calculations from angle to vector and multiply by speed
     }
 
-    /// <summary>
-	/// IRigidBody Implementation
-	/// </summary>
+    /// <summary> IRigidBody Implementation </summary>
     public void PhysicsUpdate()
     {
-        //update physics
         Move(); 
     }
 
-    /// <summary>
-	/// Damage implementation
-	/// </summary>
+    /// <summary> Damage implementation </summary>
     public void Damage(int damageTaken)
     {
-        //call on destroyed event
+        Destroy(); //Once powerups are added this might need a check for health
     }
 
-    /// <summary>
-	/// Asteroids movement implementation
-	/// </summary>
+    /// <summary> Asteroids movement implementation </summary>
     private void Move()
     {
         _rigidbody.AddForce(_movementDirection);
-        //addforce
     }
 
-    //TODO how to call this properly
-    private void ON_DESTROYED()
+    /// <summary> Asteroids destruction implementation </summary>
+    private void Destroy()
     {
-        Debug.Log("Delete Object");
-        Debug.Log("Spawn 2 smaller");
-        AsteroidsSpawner.SpawnAsteroid(2, _size / 2, _asteroid.transform.position, Random.Range(0, 360), Random.Range(1, 5));
+        //FIXME how to call an event and pass a variable with it 
+        //EventManager<GameObject>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, _asteroid);
+
+
+        //should not be used: AsteroidsSpawner.SpawnAsteroid(2, _size / 2, _asteroid.transform.position, Random.Range(0, 360), Random.Range(1, 5));
     }
 }

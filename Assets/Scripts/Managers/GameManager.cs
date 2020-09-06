@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
 		Debug.Log("populate start");
 
 		_startGame += CreatePlayer;
+		_startGame += CreateAsteroidSpawner;
 
 		EventManager.AddListener(EventType.ON_GAME_START, _startGame);
 	}
@@ -79,7 +80,14 @@ public class GameManager : MonoBehaviour
 	private void CreatePlayer()
 	{
 		Debug.Log("Player Created!");
-		
+
 		_player = new Player();
+	}
+
+	private void CreateAsteroidSpawner()
+	{
+		Debug.Log("AsteroidSpawner Created!");
+
+		new AsteroidsManager();
 	}
 }
