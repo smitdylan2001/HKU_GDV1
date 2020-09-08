@@ -9,11 +9,11 @@ public class Asteroid : IRigidBody, IDamageable
     public delegate void MyDelegate(Asteroid _asteroidClass);
     public static event MyDelegate OnDestroy;
 
-    private float _size { get; set; }
-    private Vector2 _movementDirection { get; set; }
-    private GameObject _asteroid { get; set; }
-    private SpriteRenderer _spriteRenderer { get; set; }
-    private Rigidbody2D _rigidbody { get; set; }
+    private float _size;
+    private Vector2 _movementDirection;
+    private GameObject _asteroid;
+    private SpriteRenderer _spriteRenderer;
+    private Rigidbody2D _rigidbody;
 
     /// <summary> Create a new GameObject and give it all components to work as an asteroid </summary>
     public Asteroid(float size, Vector2 startPos, float direction, float speed, Sprite sprite)
