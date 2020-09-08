@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -11,6 +12,7 @@ public class Asteroid : IRigidBody, IDamageable
     private float _size { get; set; }
     private Vector2 _movementDirection { get; set; }
     private GameObject _asteroid { get; set; }
+    private SpriteRenderer _spriteRenderer { get; set; }
     private Rigidbody2D _rigidbody { get; set; }
 
     /// <summary> Create a new GameObject and give it all components to work as an asteroid </summary>
@@ -24,11 +26,15 @@ public class Asteroid : IRigidBody, IDamageable
         _asteroid.AddComponent<Rigidbody2D>();
         _rigidbody = _asteroid.GetComponent<Rigidbody2D>();
 
-        _asteroid.AddComponent<SpriteRenderer>().sprite = sprite; //can be expanded if needed
+        _asteroid.AddComponent<SpriteRenderer>();
+        _spriteRenderer = _asteroid.GetComponent<SpriteRenderer>();
+        _spriteRenderer.sprite = sprite;
 
-        _asteroid.transform.localScale= new Vector3(size, size, size);
+        _asteroid.transform.position = startPos;
+        _asteroid.transform.localScale = new Vector2(size, size);
 
-        _movementDirection = new Vector2(direction * speed, direction * speed); //FIXME add calculations from angle to vector and multiply by speed
+
+        _movementDirection = new Vector2(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
     }
 
     /// <summary> IRigidBody Implementation </summary>
@@ -52,10 +58,11 @@ public class Asteroid : IRigidBody, IDamageable
     /// <summary> Asteroids destruction implementation </summary>
     private void Destroy()
     {
+
         //FIXME how to call an event and pass a variable with it 
         //EventManager<GameObject>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, _asteroid);
 
-
-        //should not be used: AsteroidsSpawner.SpawnAsteroid(2, _size / 2, _asteroid.transform.position, Random.Range(0, 360), Random.Range(1, 5));
+        //Temporary fix to make this working
+        AsteroidsManager.SpawnAsteroid(2, _size / 2, _asteroid.transform.position);
     }
 }
