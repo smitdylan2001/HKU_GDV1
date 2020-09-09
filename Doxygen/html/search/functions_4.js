@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['physicsupdate_74',['PhysicsUpdate',['../class_asteroid.html#a8085ed547cfefc268a7a2dd0abae2731',1,'Asteroid.PhysicsUpdate()'],['../interface_i_rigid_body.html#a4c6d13ed55d578dbf5b9d47ce86825b8',1,'IRigidBody.PhysicsUpdate()'],['../class_player.html#a55a596cafa7a9894adcca3e322543784',1,'Player.PhysicsUpdate()']]],
-  ['player_75',['Player',['../class_player.html#aab180d122c9faa059d6cae117555ff63',1,'Player']]]
+  ['oninput_78',['OnInput',['../interface_i_playable.html#aae4029ec6aef6988835998e2eabd99ea',1,'IPlayable.OnInput()'],['../class_player.html#a86f4184b9b44b95f1e362c719798036b',1,'Player.OnInput()']]]
 ];

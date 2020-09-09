@@ -1,13 +1,14 @@
 var indexSectionsWithContent =
 {
-  0: "_abcdegimops",
-  1: "abgimp",
+  0: "_abcdeghimoprst",
+  1: "abgip",
   2: "abegip",
-  3: "abdops",
+  3: "abdmops",
   4: "_",
   5: "eg",
   6: "io",
-  7: "_c"
+  7: "abchprst",
+  8: "o"
 };
 
 var indexSectionNames =
@@ -19,7 +20,8 @@ var indexSectionNames =
   4: "variables",
   5: "enums",
   6: "enumvalues",
-  7: "properties"
+  7: "properties",
+  8: "events"
 };
 
 var indexSectionLabels =
@@ -31,6 +33,7 @@ var indexSectionLabels =
   4: "Variables",
   5: "Enumerations",
   6: "Enumerator",
-  7: "Properties"
+  7: "Properties",
+  8: "Events"
 };
 

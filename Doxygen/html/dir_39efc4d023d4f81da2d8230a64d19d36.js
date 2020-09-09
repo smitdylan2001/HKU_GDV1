@@ -1,6 +1,6 @@
 var dir_39efc4d023d4f81da2d8230a64d19d36 =
 [
-    [ "IDamageable.cs", "_interfaces_2_i_damageable_8cs.html", [
+    [ "IDamageable.cs", "_i_damageable_8cs.html", [
       [ "IDamageable", "interface_i_damageable.html", "interface_i_damageable" ]
     ] ],
     [ "IPlayable.cs", "_i_playable_8cs.html", [
