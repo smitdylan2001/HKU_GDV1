@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['asteroid_49',['Asteroid',['../class_asteroid.html',1,'']]],
-  ['asteroidsspawner_50',['AsteroidsSpawner',['../class_asteroids_spawner.html',1,'']]]
+  ['asteroid_52',['Asteroid',['../class_asteroid.html',1,'']]],
+  ['asteroidsmanager_53',['AsteroidsManager',['../class_asteroids_manager.html',1,'']]]
 ];

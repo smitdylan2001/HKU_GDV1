@@ -1,13 +1,13 @@
 var class_player =
 [
-    [ "Player", "class_player.html#aab180d122c9faa059d6cae117555ff63", null ],
+    [ "Player", "class_player.html#a9ce354f3e967265c94b821d12d076e88", null ],
     [ "OnInput", "class_player.html#a86f4184b9b44b95f1e362c719798036b", null ],
     [ "PhysicsUpdate", "class_player.html#a55a596cafa7a9894adcca3e322543784", null ],
-    [ "_health", "class_player.html#aceb20a4960d6b121590f4ecd514f83b9", null ],
-    [ "_rb2d", "class_player.html#ae3aff93fc5962f9932829a7380029ba8", null ],
-    [ "_rotation", "class_player.html#a1a8030973456569dd8b06dd910ecb63b", null ],
-    [ "_rotationPower", "class_player.html#afc7947ffd1b9c4f47959512813165c40", null ],
-    [ "_sprite", "class_player.html#a2c62b3a17aeb401f22465373a292e74a", null ],
-    [ "_spriteRenderer", "class_player.html#ab5314141b233b02f551acd01dd30fa98", null ],
-    [ "_thrustPower", "class_player.html#af37c37805ef1943266b63dd1681134fa", null ]
+    [ "Health", "class_player.html#a129d77184feb05c2743ef38726dc23da", null ],
+    [ "Rb2d", "class_player.html#abdec2c637dc8e08c3e762d5e37c44e3b", null ],
+    [ "Rotation", "class_player.html#abc353f373dbb294df1e64baa5a49b57e", null ],
+    [ "RotationPower", "class_player.html#a269cd4457401c8b702be64e8c7f20414", null ],
+    [ "Sprite", "class_player.html#aa28c646a9be8c23fa1ac6547601658f9", null ],
+    [ "SpriteRenderer", "class_player.html#a0701657edb55f3a2be7c4e9f44d32c68", null ],
+    [ "ThrustPower", "class_player.html#af43ba2f2d9974c4bbb05e96ad928c7dd", null ]
 ];

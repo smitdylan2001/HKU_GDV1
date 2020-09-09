@@ -1,8 +1,9 @@
 var hierarchy =
 [
-    [ "AsteroidsSpawner", "class_asteroids_spawner.html", null ],
+    [ "AsteroidsManager", "class_asteroids_manager.html", null ],
     [ "Bullet", "class_bullet.html", null ],
-    [ "IDamageable< T >", "interface_i_damageable.html", [
+    [ "IDamageable< T >", "interface_i_damageable.html", null ],
+    [ "IDamageable< int >", "interface_i_damageable.html", [
       [ "Asteroid", "class_asteroid.html", null ]
     ] ],
     [ "IPlayable", "interface_i_playable.html", [
@@ -13,7 +14,7 @@ var hierarchy =
       [ "Player", "class_player.html", null ]
     ] ],
     [ "IScoreable< T >", "interface_i_scoreable.html", null ],
-    [ "MonoBehaviour", "class_mono_behaviour.html", [
+    [ "MonoBehaviour", null, [
       [ "GameManager", "class_game_manager.html", null ]
     ] ]
 ];

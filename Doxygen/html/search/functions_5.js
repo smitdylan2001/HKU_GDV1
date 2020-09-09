@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['spawnasteroid_76',['SpawnAsteroid',['../class_asteroids_spawner.html#acfb647ec648499176fa9b29f5a27a1c5',1,'AsteroidsSpawner']]]
+  ['physicsupdate_79',['PhysicsUpdate',['../class_asteroid.html#a8085ed547cfefc268a7a2dd0abae2731',1,'Asteroid.PhysicsUpdate()'],['../interface_i_rigid_body.html#a4c6d13ed55d578dbf5b9d47ce86825b8',1,'IRigidBody.PhysicsUpdate()'],['../class_player.html#a55a596cafa7a9894adcca3e322543784',1,'Player.PhysicsUpdate()']]],
+  ['player_80',['Player',['../class_player.html#a9ce354f3e967265c94b821d12d076e88',1,'Player']]]
 ];
