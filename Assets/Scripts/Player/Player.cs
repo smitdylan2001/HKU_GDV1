@@ -6,29 +6,29 @@
 public class Player : IRigidBody, IPlayable
 {
 	/// <summary> The Health member of the player. </summary>
-	public int _health { get; private set; }
+	public int Health { get; private set; }
 	/// <summary> The Rotation member of the player. </summary>
-	public float _rotation { get; private set; }
+	public float Rotation { get; private set; }
 	/// <summary> The Thrusting Power of the player. </summary>
-	public float _thrustPower { get; private set; }
+	public float ThrustPower { get; private set; }
 	/// <summary> The Rotation Power of the player. </summary>
-	public float _rotationPower { get; private set; }
+	public float RotationPower { get; private set; }
 
 	/// <summary> The sprite of the Player Gameobject. </summary>
-	public Sprite _sprite { get; private set; }
+	public Sprite Sprite { get; private set; }
 	/// <summary> The Rigidbody2D Component of the Player. </summary>
-	public Rigidbody2D _rb2d { get; private set; }
+	public Rigidbody2D Rb2d { get; private set; }
 	/// <summary> The SpriteRenderer Component of the Player. </summary>
-	public SpriteRenderer _spriteRenderer { get; private set; }
+	public SpriteRenderer SpriteRenderer { get; private set; }
 
 	/// <summary>
 	/// Constructor of the Player Class.
 	/// </summary>
 	public Player(int health = 100, float thrustPower = 50, float rotationPower = 150)
 	{
-		_health = health;
-		_thrustPower = thrustPower;
-		_rotationPower = rotationPower;
+		Health = health;
+		ThrustPower = thrustPower;
+		RotationPower = rotationPower;
 
 		Sprite sprite = Resources.Load<Sprite>("Sprites/Player");
 
@@ -36,11 +36,11 @@ public class Player : IRigidBody, IPlayable
 		playerGO.name = "Player";
 
 		Rigidbody2D rb2d = playerGO.AddComponent<Rigidbody2D>();
-		_rb2d = rb2d;
+		Rb2d = rb2d;
 
 		SpriteRenderer spriteRenderer = playerGO.AddComponent<SpriteRenderer>();
-		_spriteRenderer = spriteRenderer;
-		_spriteRenderer.sprite = sprite;
+		SpriteRenderer = spriteRenderer;
+		SpriteRenderer.sprite = sprite;
 	}
 	/// <summary>
 	/// IRigidBody Implementation.
@@ -65,7 +65,7 @@ public class Player : IRigidBody, IPlayable
 	{
 		//TODO Use a Custom Input manager instead of the built-in one.
 
-		if(Input.GetKey(KeyCode.W)) _rb2d.AddForce(_rb2d.transform.up * _thrustPower * Time.deltaTime);
+		if(Input.GetKey(KeyCode.W)) Rb2d.AddForce(Rb2d.transform.up * ThrustPower * Time.deltaTime);
 	}
 	/// <summary>
 	/// Rotates the Player on Input.
@@ -74,8 +74,8 @@ public class Player : IRigidBody, IPlayable
 	{
 		//TODO Use a Custom Input manager instead of the built-in one.
 
-		_rotation = Input.GetAxisRaw("Horizontal");
-		_rb2d.MoveRotation(_rb2d.rotation -= _rotation * _rotationPower * Time.deltaTime);
+		Rotation = Input.GetAxisRaw("Horizontal");
+		Rb2d.MoveRotation(Rb2d.rotation -= Rotation * RotationPower * Time.deltaTime);
 	}
 
 	/// <summary>
@@ -86,7 +86,7 @@ public class Player : IRigidBody, IPlayable
 		//TODO Use a Custom Input manager instead of the built-in one.
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			Bullet bullet = new Bullet(_rb2d.transform.position, _rb2d.transform.rotation, 300f);
+			Bullet bullet = new Bullet(Rb2d.transform.position, Rb2d.transform.rotation, 300f);
 		}
 	}
 }
