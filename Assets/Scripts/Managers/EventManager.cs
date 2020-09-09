@@ -35,8 +35,6 @@ public static class EventManager
 			eventDictionary.Add(type, null);
 		}
 		eventDictionary[type] += function;
-
-
 	}
 	/// <summary>
 	/// Removes a listener

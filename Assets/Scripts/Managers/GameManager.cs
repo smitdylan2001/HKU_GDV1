@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 	public static GameState CURRENT_GAME_STATE { get; set; }
 
 	/// <summary> Player Instance Reference. </summary>
-	public Player _player { get; private set; }
+	public Player Player { get; private set; }
 
 	void Start()
 	{
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log("populate Logic Update");
 
-		_logicUpdate += _player.OnInput;
+		_logicUpdate += Player.OnInput;
 
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, _logicUpdate);
 	}
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log("populate physics");
 
-		_physicsUpdate += _player.PhysicsUpdate;
+		_physicsUpdate += Player.PhysicsUpdate;
 
 		EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, _physicsUpdate);
 	}
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log("Player Created!");
 
-		_player = new Player();
+		Player = new Player();
 	}
 
 	private void CreateAsteroidSpawner()

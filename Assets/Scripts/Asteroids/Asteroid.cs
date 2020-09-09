@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Asteroid : IRigidBody, IDamageable
+public class Asteroid : IRigidBody, IDamageable<int>
 {
     public delegate void MyDelegate(Asteroid _asteroidClass);
     public static event MyDelegate OnDestroy;
