@@ -7,27 +7,28 @@ using UnityEngine.UIElements;
 public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 {
     public System.Action<Asteroid> _onDestroy;
+    public GameObject ThisAsteroid { get; private set; }
+    public float Size { get; private set; }
+    public bool Active { get; set; }
 
-    private float _size;
-    private Vector2 _movementDirection;
-    private GameObject _asteroid;
+    private Vector3 _movementDirection;
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody;
 
-    public bool Active { get; set; }
-
     /// <summary> Create a new GameObject and give it all components to work as an asteroid </summary>
-    public Asteroid(float size, Vector2 startPos, float direction, float speed, Sprite sprite)
+    public Asteroid()
     {
-        _asteroid = new GameObject();
-        _asteroid.name = "Asteroid";
+        ThisAsteroid = new GameObject
+        {
+            name = "Asteroid"
+        };
 
-        _asteroid.AddComponent<Rigidbody2D>();
-        _rigidbody = _asteroid.GetComponent<Rigidbody2D>();
+        ThisAsteroid.AddComponent<Rigidbody2D>();
+        _rigidbody = ThisAsteroid.GetComponent<Rigidbody2D>();
 
-        _asteroid.AddComponent<SpriteRenderer>();
-        _spriteRenderer = _asteroid.GetComponent<SpriteRenderer>();
-        _spriteRenderer.sprite = sprite;
+        ThisAsteroid.AddComponent<SpriteRenderer>();
+        _spriteRenderer = ThisAsteroid.GetComponent<SpriteRenderer>();
+        _spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Asteroid");
     }
 
     /// <summary> IRigidBody Implementation </summary>
@@ -54,19 +55,19 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
         EventManager<Asteroid>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
     }
 
-    public void OnActivate(float size, Vector2 startPos, float direction, float speed)
+    public void OnActivate(float size, Vector3 startPos, float direction, float speed)
     {
-        _size = size;
+        Size = size;
 
-        _asteroid.transform.position = startPos;
-        _asteroid.transform.localScale = new Vector2(size, size);
+        ThisAsteroid.transform.position = startPos;
+        ThisAsteroid.transform.localScale = new Vector3(size, size);
 
-        _movementDirection = new Vector2(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
-        _asteroid.SetActive(true);
+        _movementDirection = new Vector3(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
+        ThisAsteroid.SetActive(true);
     }
 
     public void OnDisable()
     {
-        _asteroid.SetActive(false);
+        ThisAsteroid.SetActive(false);
     }
 }

@@ -1,28 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using UnityEngine;
 
 public class ObjectPool<T> where T : IPoolable
 {
-    private List<T> _activePool = new List<T>(); 
-    private List<T> _inactivePool = new List<T>();
+    public List<T> _activePool = new List<T>();
+    public List<T> _inactivePool = new List<T>();
 
     private T AddNewItemToPool()
     {
         T instance = (T)Activator.CreateInstance(typeof(T));
-        _inactivePool.Add(instance);
-        UnityEngine.Debug.Log("Added object to pool");
+        _activePool.Add(instance);
         return instance;
     }
 
-    private T RequestItem()
+    public T RequestItem()
     {
-        if (_inactivePool.Count > 0) { return ActivateItem(_inactivePool[0]); }
+        if (_inactivePool.Count > 0) 
+        { 
+            return ActivateItem(_inactivePool[0]);
+        }
         return ActivateItem(AddNewItemToPool());
     }
-    private T ActivateItem(T item)
+
+    public T RequestItem(float size, UnityEngine.Vector3 startPos)
     {
-        item.OnActivate(1, new UnityEngine.Vector2(1,2), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(1, 6));
+        if (_inactivePool.Count > 0)
+        {
+            return ActivateItem(_inactivePool[0]);
+        }
+        return ActivateItem(AddNewItemToPool());
+    }
+
+    public T ActivateItem(T item)
+    {
+        item.OnActivate(1, new UnityEngine.Vector3(UnityEngine.Random.Range(-15, 15), UnityEngine.Random.Range(-10, 10), 0), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(1, 6));
         item.Active = true;
         if (_inactivePool.Contains(item))
         {
@@ -30,9 +43,10 @@ public class ObjectPool<T> where T : IPoolable
         }
         return item;
     }
-    private T ActivateItem(T item, float size, Vector2 startPos)
+
+    public T ActivateItem(T item, float size, UnityEngine.Vector3 startPos)
     {
-        item.OnActivate(1, new UnityEngine.Vector2(1, 2), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(1, 6));
+        item.OnActivate(size, startPos, UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(1, 6));
         item.Active = true;
         if (_inactivePool.Contains(item))
         {
@@ -40,7 +54,8 @@ public class ObjectPool<T> where T : IPoolable
         }
         return item;
     }
-    private T ReturnObjectToInactive(T item)
+
+    public T ReturnObjectToInactive(T item)
     {
         if (_activePool.Contains(item))
         {
