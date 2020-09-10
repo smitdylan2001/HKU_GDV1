@@ -6,10 +6,7 @@ using UnityEngine.UIElements;
 
 public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 {
-    //public delegate void MyDelegate(Asteroid _asteroidClass);
-    //public static event MyDelegate OnDestroy;
-
-    public event Action<Asteroid> OnDie;
+    public System.Action<Asteroid> _onDestroy;
 
     private float _size;
     private Vector2 _movementDirection;
@@ -31,13 +28,6 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
         _asteroid.AddComponent<SpriteRenderer>();
         _spriteRenderer = _asteroid.GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = sprite;
-
-        _size = size;
-
-        _asteroid.transform.position = startPos;
-        _asteroid.transform.localScale = new Vector2(size, size);
-
-        _movementDirection = new Vector2(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
     }
 
     /// <summary> IRigidBody Implementation </summary>
@@ -61,23 +51,15 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
     /// <summary> Asteroids destruction implementation </summary>
     private void Destroy()
     {
-        OnDie?.Invoke(this);
-        //FIXME how to call an event and pass a variable with it 
-        //EventManager<GameObject>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, _asteroid);
-
-        //Temporary fix to make this working
-        //AsteroidsManager.SpawnAsteroid(2, _size / 2, _asteroid.transform.position);
+        EventManager<Asteroid>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
     }
 
     public void OnActivate(float size, Vector2 startPos, float direction, float speed)
     {
         _size = size;
 
-        
-
         _asteroid.transform.position = startPos;
         _asteroid.transform.localScale = new Vector2(size, size);
-
 
         _movementDirection = new Vector2(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
         _asteroid.SetActive(true);

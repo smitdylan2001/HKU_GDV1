@@ -32,11 +32,8 @@ public class AsteroidsManager
     void OnAsteroidDestroyed(Asteroid asteroid)
     {
         asteroid.Active = false;
-        //asteroid.Active = false;
-        //Asteroid asteroid = _asteroidPool.reque
 
-        //FIXME Get variables from gameobject mentioned above 
-        //SpawnAsteroid(2, _size / 2, _asteroid.transform.position, Random.Range(0, 360), Random.Range(1, 5));
+        //TODO: Spawn 2 new smaller asteroids
     }
 
     /// <summary> Function that can be called to spawn any number if asteroids with a set size</summary>
@@ -45,7 +42,7 @@ public class AsteroidsManager
         for (int i = 0; i < amount; i++) 
         {
             Asteroid asteroid = new Asteroid(size, new Vector2(Random.Range(-15, 15), Random.Range(-10, 10)), Random.Range(0, 360), Random.Range(1, 6), _sprite);
-            asteroid.OnDie += OnAsteroidDestroyed;
+            EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
             AsteroidsList.Add(asteroid);
         }
         Debug.Log("Asteroids spawned: " + AsteroidsList);
@@ -57,7 +54,7 @@ public class AsteroidsManager
         for (int i = 0; i < amount; i++)
         {
             Asteroid asteroid = new Asteroid(size, startPos, Random.Range(0, 360), Random.Range(1, 6), _sprite);
-            asteroid.OnDie += OnAsteroidDestroyed;
+            EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
             AsteroidsList.Add(asteroid);
         }
         Debug.Log("Asteroids spawned: " + AsteroidsList);

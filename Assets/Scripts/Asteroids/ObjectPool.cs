@@ -30,6 +30,16 @@ public class ObjectPool<T> where T : IPoolable
         }
         return item;
     }
+    private T ActivateItem(T item, float size, Vector2 startPos)
+    {
+        item.OnActivate(1, new UnityEngine.Vector2(1, 2), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(1, 6));
+        item.Active = true;
+        if (_inactivePool.Contains(item))
+        {
+            _inactivePool.Remove(item);
+        }
+        return item;
+    }
     private T ReturnObjectToInactive(T item)
     {
         if (_activePool.Contains(item))
