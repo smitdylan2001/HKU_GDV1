@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AsteroidsManager
 {
+    private static ObjectPool<Asteroid> _asteroidPool;
     public static List<Asteroid> AsteroidsList { get; private set; }
 
     public System.Action _asteroidDestroyed;
@@ -16,6 +17,8 @@ public class AsteroidsManager
         AsteroidsList = new List<Asteroid>();
         _sprite = Resources.Load<Sprite>("Sprites/Asteroid");
 
+        _asteroidPool = new ObjectPool<Asteroid>();
+
         //_asteroidDestroyed += OnAsteroidDestroyed;
 
         //FIXME This has to add a listener and get the destroyed gameobject once it is destroyed (and pass that on to OnAsteroidDestroyed)
@@ -26,29 +29,32 @@ public class AsteroidsManager
     }
     
     /// <summary> Function called if asteroid is destroyed </summary>
-    void OnAsteroidDestroyed()
+    void OnAsteroidDestroyed(Asteroid asteroid)
     {
-        //FIXME Get variables from gameobject mentioned above 
-        //SpawnAsteroid(2, _size / 2, _asteroid.transform.position, Random.Range(0, 360), Random.Range(1, 5));
+        asteroid.Active = false;
+
+        //TODO: Spawn 2 new smaller asteroids
     }
 
     /// <summary> Function that can be called to spawn any number if asteroids with a set size</summary>
-    public static void SpawnAsteroid(int amount, float size)
+    public void SpawnAsteroid(int amount, float size)
     {
         for (int i = 0; i < amount; i++) 
         {
-            Asteroid asteroid = new Asteroid(size, new Vector2(UnityEngine.Random.Range(-15, 15), UnityEngine.Random.Range(-10, 10)), Random.Range(0, 360), Random.Range(1, 6), _sprite);
+            Asteroid asteroid = new Asteroid(size, new Vector2(Random.Range(-15, 15), Random.Range(-10, 10)), Random.Range(0, 360), Random.Range(1, 6), _sprite);
+            EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
             AsteroidsList.Add(asteroid);
         }
         Debug.Log("Asteroids spawned: " + AsteroidsList);
     }
 
     /// <summary> Function that can be called to spawn any number if asteroids with a set size and start position</summary>
-    public static void SpawnAsteroid(int amount, float size, Vector2 startPos)
+    public void SpawnAsteroid(int amount, float size, Vector2 startPos)
     {
         for (int i = 0; i < amount; i++)
         {
             Asteroid asteroid = new Asteroid(size, startPos, Random.Range(0, 360), Random.Range(1, 6), _sprite);
+            EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
             AsteroidsList.Add(asteroid);
         }
         Debug.Log("Asteroids spawned: " + AsteroidsList);

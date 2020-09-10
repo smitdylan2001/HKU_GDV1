@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Asteroid : IRigidBody, IDamageable<int>
+public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 {
-    public delegate void MyDelegate(Asteroid _asteroidClass);
-    public static event MyDelegate OnDestroy;
+    public System.Action<Asteroid> _onDestroy;
 
     private float _size;
     private Vector2 _movementDirection;
@@ -15,11 +14,11 @@ public class Asteroid : IRigidBody, IDamageable<int>
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody;
 
+    public bool Active { get; set; }
+
     /// <summary> Create a new GameObject and give it all components to work as an asteroid </summary>
     public Asteroid(float size, Vector2 startPos, float direction, float speed, Sprite sprite)
     {
-        _size = size;
-
         _asteroid = new GameObject();
         _asteroid.name = "Asteroid";
 
@@ -29,12 +28,6 @@ public class Asteroid : IRigidBody, IDamageable<int>
         _asteroid.AddComponent<SpriteRenderer>();
         _spriteRenderer = _asteroid.GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = sprite;
-
-        _asteroid.transform.position = startPos;
-        _asteroid.transform.localScale = new Vector2(size, size);
-
-
-        _movementDirection = new Vector2(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
     }
 
     /// <summary> IRigidBody Implementation </summary>
@@ -58,11 +51,22 @@ public class Asteroid : IRigidBody, IDamageable<int>
     /// <summary> Asteroids destruction implementation </summary>
     private void Destroy()
     {
+        EventManager<Asteroid>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
+    }
 
-        //FIXME how to call an event and pass a variable with it 
-        //EventManager<GameObject>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, _asteroid);
+    public void OnActivate(float size, Vector2 startPos, float direction, float speed)
+    {
+        _size = size;
 
-        //Temporary fix to make this working
-        AsteroidsManager.SpawnAsteroid(2, _size / 2, _asteroid.transform.position);
+        _asteroid.transform.position = startPos;
+        _asteroid.transform.localScale = new Vector2(size, size);
+
+        _movementDirection = new Vector2(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
+        _asteroid.SetActive(true);
+    }
+
+    public void OnDisable()
+    {
+        _asteroid.SetActive(false);
     }
 }
