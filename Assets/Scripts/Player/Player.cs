@@ -3,10 +3,12 @@
 /// <summary>
 /// The Player Class holds all the members and functionality for the Player Object.
 /// </summary>
-public class Player : IRigidBody, IPlayable
+public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 {
 	/// <summary> The Health member of the player. </summary>
 	public int Health { get; private set; }
+	/// <summary> Size of the Player. </summary>
+	public float Size { get; private set; }
 	/// <summary> The Rotation member of the player. </summary>
 	public float Rotation { get; private set; }
 	/// <summary> The Thrusting Power of the player. </summary>
@@ -20,13 +22,16 @@ public class Player : IRigidBody, IPlayable
 	public Rigidbody2D Rb2d { get; private set; }
 	/// <summary> The SpriteRenderer Component of the Player. </summary>
 	public SpriteRenderer SpriteRenderer { get; private set; }
+	/// <summary> The BoxCollider2D Component of the Player. </summary>
+	public BoxCollider2D BoxCollider2D { get; private set; }
 
 	/// <summary>
 	/// Constructor of the Player Class.
 	/// </summary>
-	public Player(int health = 100, float thrustPower = 50, float rotationPower = 150)
+	public Player(int health = 100, float size = 0.25f, float thrustPower = 50, float rotationPower = 150)
 	{
 		Health = health;
+		Size = size;
 		ThrustPower = thrustPower;
 		RotationPower = rotationPower;
 
@@ -34,9 +39,15 @@ public class Player : IRigidBody, IPlayable
 
 		GameObject playerGO = new GameObject();
 		playerGO.name = "Player";
+		playerGO.transform.localScale = new Vector3(Size, Size, Size);
 
 		Rigidbody2D rb2d = playerGO.AddComponent<Rigidbody2D>();
 		Rb2d = rb2d;
+
+		BoxCollider2D boxCollider2D = playerGO.AddComponent<BoxCollider2D>();
+		BoxCollider2D = boxCollider2D;
+		BoxCollider2D.size = new Vector2(Size, Size);
+		BoxCollider2D.isTrigger = true;
 
 		SpriteRenderer spriteRenderer = playerGO.AddComponent<SpriteRenderer>();
 		SpriteRenderer = spriteRenderer;
@@ -50,12 +61,36 @@ public class Player : IRigidBody, IPlayable
 		Thrust();
 	}
 	/// <summary>
-	/// IPlayable ONInput Implemention.
+	/// IPlayable OnInput Implemention.
 	/// </summary>
 	public void OnInput()
 	{
 		Rotate();
 		Shoot();
+	}
+
+	/// <summary>
+	/// ICollideable OnCollision Implementation.
+	/// </summary>
+	public void OnCollision()
+	{
+		Collider2D[] collisions = Physics2D.OverlapCircleAll(Rb2d.gameObject.transform.position, Size);
+
+		foreach(Collider2D collider in collisions)
+		{
+			Debug.Log("Hit: " + collider.name);
+			collider.GetComponent<IDamageable<int>>()?.Damage(1);
+			Damage(1);
+		}
+	}
+
+	/// <summary>
+	/// IDamageable Damage implementation.
+	/// </summary>
+	/// <param name="damageTaken"> How much damage will be taken. </param>
+	public void Damage(int damageTaken)
+	{
+		Health -= damageTaken;
 	}
 
 	/// <summary>
