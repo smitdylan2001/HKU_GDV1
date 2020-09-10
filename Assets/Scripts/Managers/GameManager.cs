@@ -21,8 +21,11 @@ public class GameManager : MonoBehaviour
 	/// <summary> This is the state the game is currently in </summary>
 	public static GameState CURRENT_GAME_STATE { get; set; }
 
-	/// <summary> Player Instance Reference. </summary>
+	/// <summary> Player Instance. </summary>
 	public Player Player { get; private set; }
+
+	/// <summary> AsteroidsManager Instance. </summary>
+	public AsteroidsManager AsteroidsManager { get; private set; }
 
 	void Start()
 	{
@@ -64,6 +67,7 @@ public class GameManager : MonoBehaviour
 		Debug.Log("populate Logic Update");
 
 		_logicUpdate += Player.OnInput;
+		_logicUpdate += Player.OnCollision;
 
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, _logicUpdate);
 	}
@@ -88,6 +92,6 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log("AsteroidSpawner Created!");
 
-		new AsteroidsManager();
+		AsteroidsManager = new AsteroidsManager();
 	}
 }
