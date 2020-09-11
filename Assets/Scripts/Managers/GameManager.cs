@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
 		Debug.Log("populate physics");
 
 		_physicsUpdate += Player.PhysicsUpdate;
+		_physicsUpdate += AsteroidsManager.PhysicsUpdate;
 
 		EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, _physicsUpdate);
 	}

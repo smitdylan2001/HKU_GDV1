@@ -6,14 +6,13 @@ using UnityEngine.UIElements;
 
 public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 {
-	public System.Action<Asteroid> _onDestroy;
+	//public System.Action<Asteroid> _onDestroy;
 	public GameObject ThisAsteroid { get; private set; }
 	public float Size { get; private set; }
 	public bool Active { get; set; }
 
 	private Vector3 _movementDirection;
 	private SpriteRenderer _spriteRenderer;
-	private Rigidbody2D _rigidbody;
 	private BoxCollider2D _boxCollider2D;
 
 	/// <summary>
@@ -25,9 +24,6 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 		{
 			name = "Asteroid"
 		};
-
-		ThisAsteroid.AddComponent<Rigidbody2D>();
-		_rigidbody = ThisAsteroid.GetComponent<Rigidbody2D>();
 
 		ThisAsteroid.AddComponent<SpriteRenderer>();
 		_spriteRenderer = ThisAsteroid.GetComponent<SpriteRenderer>();
@@ -58,7 +54,8 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 	/// </summary>
 	private void Move()
 	{
-		_rigidbody.AddForce(_movementDirection);
+		Debug.Log("it works");
+		ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x + _movementDirection.x, ThisAsteroid.transform.position.y + _movementDirection.y, ThisAsteroid.transform.position.z);
 	}
 
 	/// <summary>

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ObjectPool<T> where T : IPoolable
 {
-    private List<T> _activePool = new List<T>();
+    public List<T> _activePool = new List<T>();
     private List<T> _inactivePool = new List<T>();
 
     /// <summary> 
@@ -48,7 +48,8 @@ public class ObjectPool<T> where T : IPoolable
     /// </summary>
     public T ActivateItem(T item)
     {
-        item.OnActivate(1, new UnityEngine.Vector3(UnityEngine.Random.Range(-15, 15), UnityEngine.Random.Range(-10, 10), 0), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(1, 6));
+        //TODO Use a generic
+        item.OnActivate(1, new UnityEngine.Vector3(UnityEngine.Random.Range(-15, 15), UnityEngine.Random.Range(-10, 10), 0), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0.0005f, 0.03f));
         item.Active = true;
         if (_inactivePool.Contains(item))
         {
@@ -63,7 +64,7 @@ public class ObjectPool<T> where T : IPoolable
     // TODO: Clean up to use an interface instead of variables in the overflow
     public T ActivateItem(T item, float size, UnityEngine.Vector3 startPos)
     {
-        item.OnActivate(size, startPos, UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(1, 6));
+        item.OnActivate(size, startPos, UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0.0005f, 0.03f));
         item.Active = true;
         if (_inactivePool.Contains(item))
         {

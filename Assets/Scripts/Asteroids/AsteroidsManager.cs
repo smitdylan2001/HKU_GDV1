@@ -18,6 +18,14 @@ public class AsteroidsManager
         _sprite = Resources.Load<Sprite>("Sprites/Asteroid");
         SpawnAsteroid(Random.Range(8, 20), 1);
     }
+
+    public void PhysicsUpdate()
+    {
+        foreach(Asteroid asteroid in _asteroidPool._activePool) 
+        {
+            asteroid.PhysicsUpdate();
+        }
+    }
     
     /// <summary>
     /// Function called if asteroid is destroyed
@@ -52,5 +60,4 @@ public class AsteroidsManager
             EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
         }
     }
-
 }
