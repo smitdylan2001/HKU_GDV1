@@ -31,6 +31,8 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 
 		ThisAsteroid.AddComponent<BoxCollider2D>();
 		_boxCollider2D = ThisAsteroid.GetComponent<BoxCollider2D>();
+		_boxCollider2D.isTrigger = true;
+		_boxCollider2D.size = new Vector2(Size, Size);
 	}
 
 	/// <summary>

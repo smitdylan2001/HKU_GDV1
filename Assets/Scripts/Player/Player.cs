@@ -22,7 +22,7 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 	public Rigidbody2D Rb2d { get; private set; }
 	/// <summary> The SpriteRenderer Component of the Player. </summary>
 	public SpriteRenderer SpriteRenderer { get; private set; }
-	/// <summary> The BoxCollider2D Component of the Player. </summary>
+	/// <summary> The BoxCollider2D Component of the Bullet. </summary>
 	public BoxCollider2D BoxCollider2D { get; private set; }
 
 	/// <summary>
@@ -78,9 +78,12 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 
 		foreach(Collider2D collider in collisions)
 		{
-			Debug.Log("Hit: " + collider.name);
-			collider.GetComponent<IDamageable<int>>()?.Damage(1);
-			Damage(1);
+			if(collider != this.BoxCollider2D)
+			{
+				Debug.Log("Hit: " + collider.name);
+				collider.GetComponent<IDamageable<int>>()?.Damage(1);
+				Damage(1);
+			}
 		}
 	}
 
@@ -121,7 +124,7 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 		//TODO Use a Custom Input manager instead of the built-in one.
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			Bullet bullet = new Bullet(Rb2d.transform.position, Rb2d.transform.rotation, 300f);
+			new Bullet(Rb2d.transform.position, 0.25f, Rb2d.transform.rotation, 300f);
 		}
 	}
 }
