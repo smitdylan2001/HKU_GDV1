@@ -60,7 +60,7 @@ public class Bullet : ICollideable, IProjectile
 		{
 			if(collider != this.BoxCollider2D)
 			{
-				Debug.Log("Hit: " + collider.name);
+				Debug.Log(Rb2d.transform.name + " Hit " + collider.name);
 				collider.GetComponent<IDamageable<int>>()?.Damage(25);
 			}
 		}

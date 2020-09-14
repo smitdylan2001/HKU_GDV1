@@ -32,7 +32,6 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 		ThisAsteroid.AddComponent<BoxCollider2D>();
 		_boxCollider2D = ThisAsteroid.GetComponent<BoxCollider2D>();
 		_boxCollider2D.isTrigger = true;
-		_boxCollider2D.size = new Vector2(Size, Size);
 	}
 
 	/// <summary>
@@ -48,6 +47,7 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 	/// </summary>
 	public void Damage(int damageTaken)
 	{
+		Debug.Log(ThisAsteroid.name + ": Got Damaged!");
 		Destroy(); //Once powerups are added this might need a check for health
 	}
 
@@ -65,6 +65,7 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 	/// </summary>
 	private void Destroy()
 	{
+		Debug.Log(ThisAsteroid.name + ": Got Destroyed!");
 		EventManager<Asteroid>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
 	}
 
@@ -77,6 +78,7 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 
 		ThisAsteroid.transform.position = startPos;
 		ThisAsteroid.transform.localScale = new Vector3(size, size);
+		_boxCollider2D.size = new Vector2(Size, Size);
 
 		_movementDirection = new Vector3(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
 	}

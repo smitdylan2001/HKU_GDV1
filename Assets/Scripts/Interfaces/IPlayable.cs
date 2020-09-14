@@ -1,4 +1,4 @@
 ﻿public interface IPlayable
 {
-	void OnInput();
+	void LogicUpdate();
 }
