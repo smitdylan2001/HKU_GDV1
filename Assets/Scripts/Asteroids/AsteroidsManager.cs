@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AsteroidsManager
@@ -8,6 +9,13 @@ public class AsteroidsManager
 
     private ObjectPool<Asteroid> _asteroidPool;
     private Sprite _sprite;
+
+    public int _timer;
+    int Timer
+    {
+        get { return _timer += 1; }
+        set{ ; }
+    }
 
     /// <summary>
     /// Make asteroids list, load sprite and add event
@@ -25,6 +33,8 @@ public class AsteroidsManager
         {
             asteroid.PhysicsUpdate();
         }
+
+        CheckAsteroidPosition();
     }
     
     /// <summary>
@@ -58,6 +68,32 @@ public class AsteroidsManager
         {
             Asteroid asteroid = _asteroidPool.RequestItem(size, startPos);
             EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
+        }
+    }
+
+    private void CheckAsteroidPosition()
+    {
+        if (Timer >= 30)
+        {
+            foreach (Asteroid asteroid in _asteroidPool._activePool.Reverse<Asteroid>())
+            {
+                if (Screen.width < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x - 130 ||
+                    0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x + 130)
+                {
+                    _asteroidPool.ReturnObjectToInactive(asteroid);
+                    SpawnAsteroid(1, 1);
+                    Debug.Log("Asteroid despawned");
+                }
+                if (Screen.height < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y - 130 ||
+                    0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y + 130)
+                {
+                    _asteroidPool.ReturnObjectToInactive(asteroid);
+                    SpawnAsteroid(1, 1);
+                    Debug.Log("Asteroid despawned");
+                }
+            }
+
+            _timer = 0;
         }
     }
 }

@@ -49,7 +49,7 @@ public class ObjectPool<T> where T : IPoolable
     public T ActivateItem(T item)
     {
         //TODO Use a generic
-        item.OnActivate(1, new UnityEngine.Vector3(UnityEngine.Random.Range(-15, 15), UnityEngine.Random.Range(-10, 10), 0), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0.0005f, 0.03f));
+        item.OnActivate(1, new UnityEngine.Vector3(UnityEngine.Random.Range(-11, 11), UnityEngine.Random.Range(-6, 6), 0), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0.0005f, 0.03f));
         item.Active = true;
         if (_inactivePool.Contains(item))
         {
