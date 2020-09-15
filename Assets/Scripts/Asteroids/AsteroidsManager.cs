@@ -10,12 +10,14 @@ public class AsteroidsManager
     private ObjectPool<Asteroid> _asteroidPool;
     private Sprite _sprite;
 
-    public int _timer;
+    private int _timer;
+    private int _amountDestroyed;
     int Timer
     {
         get { return _timer += 1; }
         set{ ; }
     }
+    [SerializeField] private int _timerCheck = 30;
 
     /// <summary>
     /// Make asteroids list, load sprite and add event
@@ -35,6 +37,7 @@ public class AsteroidsManager
         }
 
         CheckAsteroidPosition();
+
     }
     
     /// <summary>
@@ -57,6 +60,7 @@ public class AsteroidsManager
             Asteroid asteroid = _asteroidPool.RequestItem();
             EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed); //TODO test
         }
+       
     }
 
     /// <summary>
@@ -73,26 +77,27 @@ public class AsteroidsManager
 
     private void CheckAsteroidPosition()
     {
-        if (Timer >= 30)
+        if (Timer >= _timerCheck)
         {
+            _amountDestroyed = 0;
             foreach (Asteroid asteroid in _asteroidPool._activePool.Reverse<Asteroid>())
             {
                 if (Screen.width < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x - 130 ||
-                    0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x + 130)
-                {
-                    _asteroidPool.ReturnObjectToInactive(asteroid);
-                    SpawnAsteroid(1, 1);
-                    Debug.Log("Asteroid despawned");
-                }
-                if (Screen.height < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y - 130 ||
+                    0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x + 130||
+                    Screen.height < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y - 130 ||
                     0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y + 130)
                 {
                     _asteroidPool.ReturnObjectToInactive(asteroid);
-                    SpawnAsteroid(1, 1);
-                    Debug.Log("Asteroid despawned");
+                    _amountDestroyed += 1;
+                    Debug.LogError("Asteroid despawned");
                 }
             }
 
+            //Debug.LogError(_asteroidPool._activePool.Count);
+            //Debug.LogError(_asteroidPool._inactivePool.Count);
+            Debug.LogError(_amountDestroyed);
+            SpawnAsteroid(_amountDestroyed, 1);
+            _amountDestroyed = 0;
             _timer = 0;
         }
     }
