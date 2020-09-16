@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// The Player Class holds all the members and functionality for the Player Object.
@@ -24,6 +25,8 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 	public SpriteRenderer SpriteRenderer { get; private set; }
 	/// <summary> The BoxCollider2D Component of the Bullet. </summary>
 	public BoxCollider2D BoxCollider2D { get; private set; }
+
+	private List<Bullet> projectiles = new List<Bullet>();
 
 	/// <summary>
 	/// Constructor of the Player Class.
@@ -63,10 +66,11 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 	/// <summary>
 	/// IPlayable OnInput Implemention.
 	/// </summary>
-	public void OnInput()
+	public void LogicUpdate()
 	{
 		Rotate();
 		Shoot();
+		UpdateProjectiles();
 	}
 
 	/// <summary>
@@ -80,7 +84,7 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 		{
 			if(collider != this.BoxCollider2D)
 			{
-				Debug.Log("Hit: " + collider.name);
+				Debug.Log(Rb2d.transform.name + " Hit " + collider.name);
 				collider.GetComponent<IDamageable<int>>()?.Damage(1);
 				Damage(1);
 			}
@@ -124,7 +128,16 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 		//TODO Use a Custom Input manager instead of the built-in one.
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			new Bullet(Rb2d.transform.position, 0.25f, Rb2d.transform.rotation, 300f);
+			Bullet projectileGO = new Bullet(Rb2d.transform.position, 0.25f, Rb2d.transform.rotation, 300f);
+			projectiles.Add(projectileGO);
+		}
+	}
+
+	private void UpdateProjectiles()
+	{
+		foreach(Bullet projectile in projectiles)
+		{
+			projectile.OnCollision();
 		}
 	}
 }

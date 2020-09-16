@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log("populate Logic Update");
 
-		_logicUpdate += Player.OnInput;
+		_logicUpdate += Player.LogicUpdate;
 		_logicUpdate += Player.OnCollision;
 
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, _logicUpdate);
