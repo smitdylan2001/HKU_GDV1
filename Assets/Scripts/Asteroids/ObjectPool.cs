@@ -65,8 +65,9 @@ public class ObjectPool<T> where T : IPoolable
         if (_inactivePool.Contains(item))
         {
             _inactivePool.Remove(item);
+            _activePool.Add(item);
         }
-        _activePool.Add(item);
+        
         return item;
     }
 
@@ -82,8 +83,8 @@ public class ObjectPool<T> where T : IPoolable
         if (_inactivePool.Contains(item))
         {
             _inactivePool.Remove(item);
+            _activePool.Add(item);
         }
-        _activePool.Add(item);
         return item;
     }
 

@@ -78,6 +78,7 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 		ThisAsteroid.transform.localScale = new Vector3(size, size);
 
 		_movementDirection = new Vector3(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
+		ThisAsteroid.SetActive(true);
 	}
 
 	/// <summary>

@@ -80,6 +80,7 @@ public class AsteroidsManager
         if (Timer >= _timerCheck)
         {
             _amountDestroyed = 0;
+           
             foreach (Asteroid asteroid in _asteroidPool._activePool.Reverse<Asteroid>())
             {
                 if (Screen.width < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x - 130 ||
@@ -87,6 +88,7 @@ public class AsteroidsManager
                     Screen.height < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y - 130 ||
                     0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y + 130)
                 {
+                    
                     _asteroidPool.ReturnObjectToInactive(asteroid);
                     _amountDestroyed += 1;
                     Debug.LogError("Asteroid despawned");
