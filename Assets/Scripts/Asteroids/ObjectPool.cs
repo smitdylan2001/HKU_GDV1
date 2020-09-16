@@ -67,7 +67,6 @@ public class ObjectPool<T> where T : IPoolable
             _inactivePool.Remove(item);
             _activePool.Add(item);
         }
-        
         return item;
     }
 
