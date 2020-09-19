@@ -89,7 +89,7 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 		ThisAsteroid.transform.position = startPos;
 		ThisAsteroid.transform.localScale = new Vector3(size, size);
 		_boxCollider2D.size = new Vector2(Size, Size);
-			
+
 		_movementDirection = new Vector3(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
 		ThisAsteroid.SetActive(true);
 	}
