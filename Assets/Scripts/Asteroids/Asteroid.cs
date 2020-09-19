@@ -66,7 +66,8 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 	/// </summary>
 	private void Move()
 	{
-		ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x + _movementDirection.x, ThisAsteroid.transform.position.y + _movementDirection.y, ThisAsteroid.transform.position.z);
+		ThisAsteroid.transform.Translate(_movementDirection.x, _movementDirection.y, 0);
+		//ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x + _movementDirection.x, ThisAsteroid.transform.position.y + _movementDirection.y, ThisAsteroid.transform.position.z);
 	}
 
 	/// <summary>
