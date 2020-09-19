@@ -94,7 +94,11 @@ public class GameManager : MonoBehaviour
 		inputManager = new InputManager();
 		var shootCommand = new ShootCommand();
 		var thrustCommand = new ThrustCommand();
-		inputManager.BindInputToCommandWithOrigin(KeyCode.Space, shootCommand, Player.Rb2d.gameObject);
-		inputManager.BindInputToCommandWithOriginDown(KeyCode.W, thrustCommand, Player.Rb2d.gameObject);
+		var rotateLeftCommand = new RotateLeftCommand();
+		var rotateRightCommand = new RotateRightCommand();
+		inputManager.BindInputToCommandWithOrigin(KeyCode.Space, shootCommand, Player.PlayerGO);
+		inputManager.BindInputToCommandWithOriginDown(KeyCode.W, thrustCommand, Player.PlayerGO);
+		inputManager.BindInputToCommandWithOriginDown(KeyCode.A, rotateLeftCommand, Player.PlayerGO);
+		inputManager.BindInputToCommandWithOriginDown(KeyCode.D, rotateRightCommand, Player.PlayerGO);
 	}
 }

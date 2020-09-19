@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class ShootCommand : IGameObjectCommand
 {
-    public void Execute(GameObject origin)
+	//Speed of the bullet
+	float _bulletSpeed = 500f;
+	/// <summary>
+	/// Shoots a bullet from a gameobject
+	/// </summary>
+	/// <param name="origin"></param>
+	public void Execute(GameObject origin)
     {
-        new Bullet(origin.transform.position, 0.25f, origin.transform.rotation, 300f);
+        new Bullet(origin.transform.position, 0.25f, origin.transform.rotation, _bulletSpeed);
     }
 }
