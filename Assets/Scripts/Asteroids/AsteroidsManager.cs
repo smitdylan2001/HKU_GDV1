@@ -89,7 +89,6 @@ public class AsteroidsManager
                 {
                     _asteroidPool.ReturnObjectToInactive(asteroid);
                     _amountDestroyed += 1;
-                    Debug.Log("Asteroid despawned");
                 }
             }
             SpawnAsteroid(_amountDestroyed, 1);

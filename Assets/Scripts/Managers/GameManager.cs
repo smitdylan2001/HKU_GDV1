@@ -27,13 +27,13 @@ public class GameManager : MonoBehaviour
 	/// <summary> AsteroidsManager Instance. </summary>
 	public AsteroidsManager AsteroidsManager { get; private set; }
 
+	/// <summary> The inputManager that handles all playerinput (i.e. moving or shooting) </summary>
+	public InputManager inputManager { get; private set; }
 	void Start()
 	{
-		Debug.Log("UnityEngine start");
 		PopulateGameStartEvent();
-
 		EventManager.InvokeEvent(EventType.ON_GAME_START);
-
+		SetAndPopulateInput();
 		// Populate physics and Logic last because we need all the start objects to be initialized first before we can call their functions.
 		// a.k.a. Null pointer when this isn't placed as last on Start.
 		PopulateGameLogicUpdateEvent();
@@ -43,18 +43,17 @@ public class GameManager : MonoBehaviour
 	private void Update()
 	{
 		EventManager.InvokeEvent(EventType.ON_LOGIC_UPDATE);
+		inputManager.HandleInput();
 	}
 
 	void FixedUpdate()
 	{
-		Debug.Log("UnityEngine fixedupdate");
 
 		EventManager.InvokeEvent(EventType.ON_PHYSICS_UPDATE);
 	}
 
 	private void PopulateGameStartEvent()
 	{
-		Debug.Log("populate start");
 
 		_startGame += CreatePlayer;
 		_startGame += CreateAsteroidSpawner;
@@ -64,9 +63,8 @@ public class GameManager : MonoBehaviour
 
 	private void PopulateGameLogicUpdateEvent()
 	{
-		Debug.Log("populate Logic Update");
 
-		_logicUpdate += Player.LogicUpdate;
+		inputManager.HandleInput();
 		_logicUpdate += Player.OnCollision;
 
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, _logicUpdate);
@@ -74,7 +72,6 @@ public class GameManager : MonoBehaviour
 
 	private void PopulateGamePhysicsEvent()
 	{
-		Debug.Log("populate physics");
 
 		_physicsUpdate += Player.PhysicsUpdate;
 		_physicsUpdate += AsteroidsManager.PhysicsUpdate;
@@ -84,15 +81,20 @@ public class GameManager : MonoBehaviour
 
 	private void CreatePlayer()
 	{
-		Debug.Log("Player Created!");
-
 		Player = new Player();
 	}
 
 	private void CreateAsteroidSpawner()
 	{
-		Debug.Log("AsteroidSpawner Created!");
-
 		AsteroidsManager = new AsteroidsManager();
+	}
+
+	private void SetAndPopulateInput()
+	{
+		inputManager = new InputManager();
+		var shootCommand = new ShootCommand();
+		var thrustCommand = new ThrustCommand();
+		inputManager.BindInputToCommandWithOrigin(KeyCode.Space, shootCommand, Player.Rb2d.gameObject);
+		inputManager.BindInputToCommandWithOriginDown(KeyCode.W, thrustCommand, Player.Rb2d.gameObject);
 	}
 }

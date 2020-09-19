@@ -25,9 +25,6 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 	public SpriteRenderer SpriteRenderer { get; private set; }
 	/// <summary> The BoxCollider2D Component of the Bullet. </summary>
 	public BoxCollider2D BoxCollider2D { get; private set; }
-
-	private List<Bullet> projectiles = new List<Bullet>();
-
 	/// <summary>
 	/// Constructor of the Player Class.
 	/// </summary>
@@ -61,7 +58,7 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 	/// </summary>
 	public void PhysicsUpdate()
 	{
-		Thrust();
+
 	}
 	/// <summary>
 	/// IPlayable OnInput Implemention.
@@ -69,8 +66,6 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 	public void LogicUpdate()
 	{
 		Rotate();
-		Shoot();
-		UpdateProjectiles();
 	}
 
 	/// <summary>
@@ -84,7 +79,7 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 		{
 			if(collider != this.BoxCollider2D)
 			{
-				Debug.Log(Rb2d.transform.name + " Hit " + collider.name);
+				//Debug.Log(Rb2d.transform.name + " Hit " + collider.name);
 				collider.GetComponent<IDamageable<int>>()?.Damage(1);
 				Damage(1);
 			}
@@ -100,15 +95,7 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 		Health -= damageTaken;
 	}
 
-	/// <summary>
-	/// Applies Forward Thrust to the player.
-	/// </summary>
-	private void Thrust()
-	{
-		//TODO Use a Custom Input manager instead of the built-in one.
 
-		if(Input.GetKey(KeyCode.W)) Rb2d.AddForce(Rb2d.transform.up * ThrustPower * Time.deltaTime);
-	}
 	/// <summary>
 	/// Rotates the Player on Input.
 	/// </summary>
@@ -118,26 +105,5 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 
 		Rotation = Input.GetAxisRaw("Horizontal");
 		Rb2d.MoveRotation(Rb2d.rotation -= Rotation * RotationPower * Time.deltaTime);
-	}
-
-	/// <summary>
-	/// Shoots a projectile in the direction the player is facing.
-	/// </summary>
-	private void Shoot()
-	{
-		//TODO Use a Custom Input manager instead of the built-in one.
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			Bullet projectileGO = new Bullet(Rb2d.transform.position, 0.25f, Rb2d.transform.rotation, 300f);
-			projectiles.Add(projectileGO);
-		}
-	}
-
-	private void UpdateProjectiles()
-	{
-		foreach(Bullet projectile in projectiles)
-		{
-			projectile.OnCollision();
-		}
 	}
 }

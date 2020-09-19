@@ -55,7 +55,7 @@ public static class EventManager
 	/// <param name="type"></param>
 	public static void InvokeEvent(EventType type)
 	{
-		if(eventDictionary[type] != null) Debug.Log(eventDictionary[type]);
+		//if(eventDictionary[type] != null) Debug.Log(eventDictionary[type]);
 		eventDictionary[type]?.Invoke();
 	}
 }
