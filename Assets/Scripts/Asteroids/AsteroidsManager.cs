@@ -27,6 +27,7 @@ public class AsteroidsManager
 		_asteroidPool = new ObjectPool<Asteroid>();
 		_sprite = Resources.Load<Sprite>("Sprites/Asteroid");
 		SpawnAsteroid(Random.Range(8, 20), 1);
+		EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed); //TODO test
 	}
 
 	public void PhysicsUpdate()
@@ -46,8 +47,14 @@ public class AsteroidsManager
 	void OnAsteroidDestroyed(Asteroid asteroid)
 	{
 		_asteroidPool.ReturnObjectToInactive(asteroid);
+		
+		if(asteroid.Size > 0.3)
+		{
+			SpawnAsteroid(2, asteroid.Size / 2, asteroid.ThisAsteroid.transform.position);
+		}
 
-		SpawnAsteroid(2, asteroid.Size / 2, asteroid.ThisAsteroid.transform.position);
+
+		CollisionManager.Collideables.Remove(asteroid);
 	}
 
 	/// <summary>
@@ -58,10 +65,8 @@ public class AsteroidsManager
 		for(int i = 0; i < amount; i++)
 		{
 			Asteroid asteroid = _asteroidPool.RequestItem();
-			EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed); //TODO test
 			CollisionManager.Collideables.Add(asteroid);
 		}
-
 	}
 
 	/// <summary>
@@ -72,7 +77,6 @@ public class AsteroidsManager
 		for(int i = 0; i < amount; i++)
 		{
 			Asteroid asteroid = _asteroidPool.RequestItem(size, startPos);
-			EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
 			CollisionManager.Collideables.Add(asteroid);
 		}
 	}
