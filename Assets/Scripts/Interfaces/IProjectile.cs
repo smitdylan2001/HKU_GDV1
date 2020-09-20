@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public interface IProjectile
+﻿public interface IProjectile
 {
-	GameObject GetOwner();
+	void Update();
 }

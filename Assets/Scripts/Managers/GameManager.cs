@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		CollisionManager.Init();
+		ProjectileManager.Init();
 
 		PopulateGameStartEvent();
 
@@ -46,6 +47,8 @@ public class GameManager : MonoBehaviour
 	private void Update()
 	{
 		EventManager.InvokeEvent(EventType.ON_LOGIC_UPDATE);
+
+		ProjectileManager.Update();
 
 		inputManager.HandleInput();
 	}
