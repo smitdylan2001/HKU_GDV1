@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum GameState
 {
@@ -29,32 +27,37 @@ public class GameManager : MonoBehaviour
 
 	/// <summary> The inputManager that handles all playerinput (i.e. moving or shooting) </summary>
 	public InputManager inputManager { get; private set; }
+
 	void Start()
 	{
+		CollisionManager.Init();
+
 		PopulateGameStartEvent();
+
 		EventManager.InvokeEvent(EventType.ON_GAME_START);
+
 		SetAndPopulateInput();
+
 		// Populate physics and Logic last because we need all the start objects to be initialized first before we can call their functions.
 		// a.k.a. Null pointer when this isn't placed as last on Start.
 		PopulateGameLogicUpdateEvent();
 		PopulateGamePhysicsEvent();
 	}
-
 	private void Update()
 	{
 		EventManager.InvokeEvent(EventType.ON_LOGIC_UPDATE);
+
 		inputManager.HandleInput();
+		CollisionManager.Update();
 	}
 
 	void FixedUpdate()
 	{
-
 		EventManager.InvokeEvent(EventType.ON_PHYSICS_UPDATE);
 	}
 
 	private void PopulateGameStartEvent()
 	{
-
 		_startGame += CreatePlayer;
 		_startGame += CreateAsteroidSpawner;
 
@@ -63,17 +66,13 @@ public class GameManager : MonoBehaviour
 
 	private void PopulateGameLogicUpdateEvent()
 	{
-
 		inputManager.HandleInput();
-		_logicUpdate += Player.OnCollision;
 
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, _logicUpdate);
 	}
 
 	private void PopulateGamePhysicsEvent()
 	{
-
-		_physicsUpdate += Player.PhysicsUpdate;
 		_physicsUpdate += AsteroidsManager.PhysicsUpdate;
 
 		EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, _physicsUpdate);
@@ -82,6 +81,7 @@ public class GameManager : MonoBehaviour
 	private void CreatePlayer()
 	{
 		Player = new Player();
+		CollisionManager.Collideables.Add(Player);
 	}
 
 	private void CreateAsteroidSpawner()

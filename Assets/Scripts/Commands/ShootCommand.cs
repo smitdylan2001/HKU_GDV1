@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShootCommand : IGameObjectCommand
 {
 	//Speed of the bullet
 	float _bulletSpeed = 500f;
+
 	/// <summary>
 	/// Shoots a bullet from a gameobject
 	/// </summary>
