@@ -54,6 +54,12 @@ public class Bullet : ICollideable, IProjectile
 		HasCollided = false;
 
 		CollisionManager.Collideables.Add(this);
+		ProjectileManager.Projectiles.Add(this);
+	}
+
+	public void Update()
+	{
+		BulletGO.transform.Translate(BulletGO.transform.up * BulletSpeed * Time.deltaTime, Space.World);
 	}
 
 	/// <summary>
@@ -84,10 +90,4 @@ public class Bullet : ICollideable, IProjectile
 		//TODO:
 		// Destroy Bullet on collision.
 	}
-
-	public GameObject GetOwner()
-	{
-		return BulletGO;
-	}
-
 }

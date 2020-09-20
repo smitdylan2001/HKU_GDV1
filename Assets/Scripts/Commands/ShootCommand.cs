@@ -3,7 +3,7 @@
 public class ShootCommand : IGameObjectCommand
 {
 	//Speed of the bullet
-	float _bulletSpeed = 500f;
+	float _bulletSpeed = 10f;
 
 	/// <summary>
 	/// Shoots a bullet from a gameobject
