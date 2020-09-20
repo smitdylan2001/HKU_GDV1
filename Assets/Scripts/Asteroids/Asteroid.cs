@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
-public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
+public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 {
 	//public System.Action<Asteroid> _onDestroy;
 	public GameObject ThisAsteroid { get; private set; }
 	public float Size { get; private set; }
 	public bool Active { get; set; }
+	/// <summary> ICollideable HasCollided Implementation. </summary>
+	public bool HasCollided { get; set; }
 
+	/// <summary> Which Layers to check for collision. </summary>
+	public LayerMask collisionMask { get; private set; }
 	private Vector3 _movementDirection;
 	private SpriteRenderer _spriteRenderer;
 	private BoxCollider2D _boxCollider2D;
@@ -33,13 +33,18 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 		_boxCollider2D = ThisAsteroid.GetComponent<BoxCollider2D>();
 		_boxCollider2D.isTrigger = true;
 
+		collisionMask = ~LayerMask.GetMask("Asteroid");
+		ThisAsteroid.layer = LayerMask.NameToLayer("Asteroid");
+
+		HasCollided = false;
+    
 		EventManager<Collider2D>.AddListener(EventType.ON_ASTEROID_HIT, AsteroidHit);
 	}
 
 	/// <summary>
-	/// IRigidBody Implementation
+	/// Update Method.
 	/// </summary>
-	public void PhysicsUpdate()
+	public void Update()
 	{
 		Move();
 	}
@@ -100,5 +105,36 @@ public class Asteroid : IRigidBody, IDamageable<int>, IPoolable
 	public void OnDisable()
 	{
 		ThisAsteroid.SetActive(false);
+	}
+
+	/// <summary>
+	/// ICollideable IsColliding Implementation.
+	/// </summary>
+	public bool IsColliding()
+	{
+		Debug.Log(ThisAsteroid.name + " is checking for Collision.");
+		Collider2D[] collisions = Physics2D.OverlapCircleAll(ThisAsteroid.transform.position, Size, collisionMask);
+
+		if(!HasCollided)
+		{
+			foreach(Collider2D collider in collisions)
+			{
+				if(collider != this._boxCollider2D)
+				{
+					Debug.Log(ThisAsteroid.name + " has collided with: " + collider.name);
+					HasCollided = true;
+					return true;
+				}
+			}
+		}
+
+		HasCollided = false;
+		return false;
+	}
+
+	public void OnCollision()
+	{
+		Debug.Log(ThisAsteroid.name + " OnCollision()");
+		Damage(1);
 	}
 }

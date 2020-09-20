@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// The Player Class holds all the members and functionality for the Player Object.
 /// </summary>
-public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
+public class Player : ICollideable, IDamageable<int>
 {
 	/// <summary> The Health member of the player. </summary>
 	public int Health { get; private set; }
@@ -16,7 +16,11 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 	public float ThrustPower { get; private set; }
 	/// <summary> The Rotation Power of the player. </summary>
 	public float RotationPower { get; private set; }
+	/// <summary> ICollideable HasCollided Implementation. </summary>
+	public bool HasCollided { get; set; }
 
+	/// <summary> Which Layers to check for collision. </summary>
+	public LayerMask collisionMask { get; private set; }
 	/// <summary> The sprite of the Player Gameobject. </summary>
 	public Sprite Sprite { get; private set; }
 	/// <summary> The Rigidbody2D Component of the Player. </summary>
@@ -25,6 +29,10 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 	public SpriteRenderer SpriteRenderer { get; private set; }
 	/// <summary> The BoxCollider2D Component of the Bullet. </summary>
 	public BoxCollider2D BoxCollider2D { get; private set; }
+	/// <summary> The player gameobject for other classes to get</summary>
+	public GameObject PlayerGO { get; private set; }
+
+
 	/// <summary>
 	/// Constructor of the Player Class.
 	/// </summary>
@@ -36,54 +44,51 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 		RotationPower = rotationPower;
 
 		Sprite sprite = Resources.Load<Sprite>("Sprites/Player");
+		PlayerGO = new GameObject();
+		PlayerGO.name = "Player";
+		PlayerGO.transform.localScale = new Vector3(Size, Size, Size);
 
-		GameObject playerGO = new GameObject();
-		playerGO.name = "Player";
-		playerGO.transform.localScale = new Vector3(Size, Size, Size);
-
-		Rigidbody2D rb2d = playerGO.AddComponent<Rigidbody2D>();
+		Rigidbody2D rb2d = PlayerGO.AddComponent<Rigidbody2D>();
 		Rb2d = rb2d;
 
-		BoxCollider2D boxCollider2D = playerGO.AddComponent<BoxCollider2D>();
+		BoxCollider2D boxCollider2D = PlayerGO.AddComponent<BoxCollider2D>();
 		BoxCollider2D = boxCollider2D;
 		BoxCollider2D.size = new Vector2(Size, Size);
 		BoxCollider2D.isTrigger = true;
 
-		SpriteRenderer spriteRenderer = playerGO.AddComponent<SpriteRenderer>();
+		SpriteRenderer spriteRenderer = PlayerGO.AddComponent<SpriteRenderer>();
 		SpriteRenderer = spriteRenderer;
 		SpriteRenderer.sprite = sprite;
-	}
-	/// <summary>
-	/// IRigidBody Implementation.
-	/// </summary>
-	public void PhysicsUpdate()
-	{
 
-	}
-	/// <summary>
-	/// IPlayable OnInput Implemention.
-	/// </summary>
-	public void LogicUpdate()
-	{
-		Rotate();
+		collisionMask = ~LayerMask.GetMask("Player", "Projectile");
+		PlayerGO.layer = LayerMask.NameToLayer("Player");
+
+		HasCollided = false;
 	}
 
 	/// <summary>
-	/// ICollideable OnCollision Implementation.
+	/// ICollideable IsColliding Implementation.
 	/// </summary>
-	public void OnCollision()
+	public bool IsColliding()
 	{
-		Collider2D[] collisions = Physics2D.OverlapCircleAll(Rb2d.gameObject.transform.position, Size);
+		Debug.Log(PlayerGO.name + " is checking for Collision.");
+		Collider2D[] collisions = Physics2D.OverlapCircleAll(PlayerGO.transform.position, Size, collisionMask);
 
-		foreach(Collider2D collider in collisions)
+		if(!HasCollided)
 		{
-			if(collider != this.BoxCollider2D)
+			foreach(Collider2D collider in collisions)
 			{
-				//Debug.Log(Rb2d.transform.name + " Hit " + collider.name);
-				collider.GetComponent<IDamageable<int>>()?.Damage(1);
-				Damage(1);
+				if(collider != this.BoxCollider2D)
+				{
+					Debug.Log(PlayerGO.name + " has collided with: " + collider.name);
+					HasCollided = true;
+					return true;
+				}
 			}
 		}
+
+		HasCollided = false;
+		return false;
 	}
 
 	/// <summary>
@@ -95,15 +100,9 @@ public class Player : IRigidBody, IPlayable, ICollideable, IDamageable<int>
 		Health -= damageTaken;
 	}
 
-
-	/// <summary>
-	/// Rotates the Player on Input.
-	/// </summary>
-	private void Rotate()
+	public void OnCollision()
 	{
-		//TODO Use a Custom Input manager instead of the built-in one.
-
-		Rotation = Input.GetAxisRaw("Horizontal");
-		Rb2d.MoveRotation(Rb2d.rotation -= Rotation * RotationPower * Time.deltaTime);
+		Debug.Log(PlayerGO.name + " OnCollision()");
+		Damage(1);
 	}
 }

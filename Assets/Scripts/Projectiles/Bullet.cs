@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using UnityEditor.Experimental.AssetImporters;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : ICollideable, IProjectile
 {
@@ -12,15 +10,21 @@ public class Bullet : ICollideable, IProjectile
 	public Quaternion Rotation { get; private set; }
 	/// <summary> The speed at which the bullet travels. </summary>
 	public float BulletSpeed { get; private set; }
+	/// <summary> ICollideable HasCollided Implementation. </summary>
+	public bool HasCollided { get; set; }
+
+	/// <summary> Which Layers to check for collision. </summary>
+	public LayerMask collisionMask { get; private set; }
 	/// <summary> The Sprite of the bullet. </summary>
 	public Sprite Sprite { get; private set; }
-
 	/// <summary> Reference to the Rigibody2D component. </summary>
 	public Rigidbody2D Rb2d { get; private set; }
 	/// <summary> Reference to the SpriteRenderer Component. </summary>
 	public SpriteRenderer SpriteRenderer { get; private set; }
 	/// <summary> The BoxCollider2D Component of the Bulletss. </summary>
 	public BoxCollider2D BoxCollider2D { get; private set; }
+	/// <summary> Reference to the Bullet GameObject. </summary>
+	public GameObject BulletGO { get; private set; }
 
 	public Bullet(Vector2 pos = new Vector2(), float size = 0.25f, Quaternion rotation = new Quaternion(), float bulletSpeed = 300f)
 	{
@@ -31,43 +35,68 @@ public class Bullet : ICollideable, IProjectile
 
 		Sprite sprite = Resources.Load<Sprite>("Sprites/Bullet");
 
-		GameObject projectileGO = new GameObject();
-		projectileGO.transform.position = pos;
-		projectileGO.transform.rotation = rotation;
-		projectileGO.transform.localScale = new Vector3(Size, Size, Size);
-		projectileGO.name = "Bullet";
+		BulletGO = new GameObject();
+		BulletGO.transform.position = pos;
+		BulletGO.transform.rotation = rotation;
+		BulletGO.transform.localScale = new Vector3(Size, Size, Size);
+		BulletGO.name = "Bullet";
 
-		BoxCollider2D boxCollider2D = projectileGO.AddComponent<BoxCollider2D>();
+		BoxCollider2D boxCollider2D = BulletGO.AddComponent<BoxCollider2D>();
 		BoxCollider2D = boxCollider2D;
 		BoxCollider2D.isTrigger = true;
 		BoxCollider2D.size = new Vector2(Size, Size);
 
-		Rigidbody2D rb2d = projectileGO.AddComponent<Rigidbody2D>();
+		Rigidbody2D rb2d = BulletGO.AddComponent<Rigidbody2D>();
 		Rb2d = rb2d;
 		Rb2d.transform.position = pos;
 		Rb2d.AddForce(Rb2d.transform.up * BulletSpeed);
 
-		SpriteRenderer spriteRenderer = projectileGO.AddComponent<SpriteRenderer>();
+		SpriteRenderer spriteRenderer = BulletGO.AddComponent<SpriteRenderer>();
 		SpriteRenderer = spriteRenderer;
 		SpriteRenderer.sprite = sprite;
+
+		collisionMask = ~LayerMask.GetMask("Projectile", "Player");
+		BulletGO.layer = LayerMask.NameToLayer("Projectile");
+
+		HasCollided = false;
+
+		CollisionManager.Collideables.Add(this);
 	}
 
-	public void OnCollision()
+	/// <summary>
+	/// ICollideable IsColliding Implementation.
+	/// </summary>
+	public bool IsColliding()
 	{
-		Collider2D[] collisions = Physics2D.OverlapCircleAll(Rb2d.gameObject.transform.position, Size);
+		Debug.Log(BulletGO.name + " is checking for Collision.");
+		Collider2D[] collisions = Physics2D.OverlapCircleAll(Rb2d.gameObject.transform.position, Size, collisionMask);
 
-		foreach(Collider2D collider in collisions)
+		if(!HasCollided)
 		{
-			if(collider != this.BoxCollider2D)
+			foreach(Collider2D collider in collisions)
 			{
-				Debug.Log(Rb2d.transform.name + " Hit " + collider.name);
-				collider.GetComponent<IDamageable<int>>()?.Damage(25);
+				if(collider != this.BoxCollider2D)
+				{
+					Debug.Log(BulletGO.name + " has collided with: " + collider.name);
+					HasCollided = true;
+					return true;
+				}
 			}
 		}
+
+		HasCollided = false;
+		return false;
+	}
+	public void OnCollision()
+	{
+		//TODO:
+		// Destroy Bullet on collision.
+		Debug.Log(BulletGO.name + " OnCollision()");
 	}
 
 	public GameObject GetOwner()
 	{
 		return Rb2d.gameObject;
 	}
+
 }

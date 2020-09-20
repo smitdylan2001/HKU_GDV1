@@ -33,7 +33,7 @@ public class AsteroidsManager
 	{
 		foreach(Asteroid asteroid in _asteroidPool._activePool)
 		{
-			asteroid.PhysicsUpdate();
+			asteroid.Update();
 		}
 
 		CheckAsteroidPosition();
@@ -59,6 +59,7 @@ public class AsteroidsManager
 		{
 			Asteroid asteroid = _asteroidPool.RequestItem();
 			EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed); //TODO test
+			CollisionManager.Collideables.Add(asteroid);
 		}
 
 	}
@@ -72,6 +73,7 @@ public class AsteroidsManager
 		{
 			Asteroid asteroid = _asteroidPool.RequestItem(size, startPos);
 			EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
+			CollisionManager.Collideables.Add(asteroid);
 		}
 	}
 
