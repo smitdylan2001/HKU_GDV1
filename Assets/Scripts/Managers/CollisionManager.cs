@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public static class CollisionManager
 {
@@ -11,7 +12,7 @@ public static class CollisionManager
 
 	public static void Update()
 	{
-		foreach(ICollideable collideable in Collideables)
+		foreach(ICollideable collideable in Collideables.ToList())
 		{
 			if(collideable.IsColliding())
 			{
