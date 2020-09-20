@@ -53,7 +53,6 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	/// </summary>
 	public void Damage(int damageTaken)
 	{
-		Debug.Log(ThisAsteroid.name + ": Got Damaged!");
 		Destroy(); //Once powerups are added this might need a check for health
 	}
 
@@ -71,7 +70,6 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	/// </summary>
 	private void Destroy()
 	{
-		Debug.Log(ThisAsteroid.name + ": Got Destroyed!");
 		EventManager<Asteroid>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
 	}
 
@@ -103,7 +101,6 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	/// </summary>
 	public bool IsColliding()
 	{
-		Debug.Log(ThisAsteroid.name + " is checking for Collision.");
 		Collider2D[] collisions = Physics2D.OverlapCircleAll(ThisAsteroid.transform.position, Size, collisionMask);
 
 		if(!HasCollided)
@@ -112,7 +109,6 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 			{
 				if(collider != this._boxCollider2D)
 				{
-					Debug.Log(ThisAsteroid.name + " has collided with: " + collider.name);
 					HasCollided = true;
 					return true;
 				}
@@ -125,7 +121,6 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 
 	public void OnCollision()
 	{
-		Debug.Log(ThisAsteroid.name + " OnCollision()");
 		Damage(1);
 	}
 }

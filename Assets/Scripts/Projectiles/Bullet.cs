@@ -18,8 +18,6 @@ public class Bullet : ICollideable, IProjectile
 	/// <summary> The Sprite of the bullet. </summary>
 	public Sprite Sprite { get; private set; }
 	/// <summary> Reference to the Rigibody2D component. </summary>
-	public Rigidbody2D Rb2d { get; private set; }
-	/// <summary> Reference to the SpriteRenderer Component. </summary>
 	public SpriteRenderer SpriteRenderer { get; private set; }
 	/// <summary> The BoxCollider2D Component of the Bulletss. </summary>
 	public BoxCollider2D BoxCollider2D { get; private set; }
@@ -46,11 +44,6 @@ public class Bullet : ICollideable, IProjectile
 		BoxCollider2D.isTrigger = true;
 		BoxCollider2D.size = new Vector2(Size, Size);
 
-		Rigidbody2D rb2d = BulletGO.AddComponent<Rigidbody2D>();
-		Rb2d = rb2d;
-		Rb2d.transform.position = pos;
-		Rb2d.AddForce(Rb2d.transform.up * BulletSpeed);
-
 		SpriteRenderer spriteRenderer = BulletGO.AddComponent<SpriteRenderer>();
 		SpriteRenderer = spriteRenderer;
 		SpriteRenderer.sprite = sprite;
@@ -68,8 +61,7 @@ public class Bullet : ICollideable, IProjectile
 	/// </summary>
 	public bool IsColliding()
 	{
-		Debug.Log(BulletGO.name + " is checking for Collision.");
-		Collider2D[] collisions = Physics2D.OverlapCircleAll(Rb2d.gameObject.transform.position, Size, collisionMask);
+		Collider2D[] collisions = Physics2D.OverlapCircleAll(BulletGO.gameObject.transform.position, Size, collisionMask);
 
 		if(!HasCollided)
 		{
@@ -77,7 +69,6 @@ public class Bullet : ICollideable, IProjectile
 			{
 				if(collider != this.BoxCollider2D)
 				{
-					Debug.Log(BulletGO.name + " has collided with: " + collider.name);
 					HasCollided = true;
 					return true;
 				}
@@ -87,16 +78,16 @@ public class Bullet : ICollideable, IProjectile
 		HasCollided = false;
 		return false;
 	}
+
 	public void OnCollision()
 	{
 		//TODO:
 		// Destroy Bullet on collision.
-		Debug.Log(BulletGO.name + " OnCollision()");
 	}
 
 	public GameObject GetOwner()
 	{
-		return Rb2d.gameObject;
+		return BulletGO;
 	}
 
 }
