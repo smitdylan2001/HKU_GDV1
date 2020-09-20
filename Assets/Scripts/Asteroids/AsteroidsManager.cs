@@ -10,15 +10,6 @@ public class AsteroidsManager
 	private ObjectPool<Asteroid> _asteroidPool;
 	private Sprite _sprite;
 
-	private int _timer;
-	private int _amountDestroyed;
-	int Timer
-	{
-		get { return _timer += 1; }
-		set {; }
-	}
-	[SerializeField] private int _timerCheck = 30;
-
 	/// <summary>
 	/// Make asteroids list, load sprite and add event
 	/// </summary>
@@ -78,27 +69,6 @@ public class AsteroidsManager
 				Asteroid asteroid = _asteroidPool.RequestItem(size, startPos);
 				CollisionManager.Collideables.Add(asteroid);
 			}
-		}
-	}
-
-	private void CheckAsteroidPosition()
-	{
-		if(Timer >= _timerCheck)
-		{
-			_amountDestroyed = 0;
-			foreach(Asteroid asteroid in _asteroidPool._activePool.Reverse<Asteroid>())
-			{
-				if(Screen.width < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x - 130 ||
-					0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x + 130 ||
-					Screen.height < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y - 130 ||
-					0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y + 130)
-				{
-					_asteroidPool.ReturnObjectToInactive(asteroid);
-					_amountDestroyed += 1;
-				}
-			}
-			SpawnAsteroid(_amountDestroyed, 1);
-			_timer = 0;
 		}
 	}
 }
