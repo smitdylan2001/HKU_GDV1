@@ -13,7 +13,6 @@ public class ObjectPool<T> where T : IPoolable
     /// </summary>
     private T AddNewItemToPool()
     {
-        Debug.Log("spawning new");
         T instance = (T)Activator.CreateInstance(typeof(T));
         _activePool.Add(instance);
         return instance;

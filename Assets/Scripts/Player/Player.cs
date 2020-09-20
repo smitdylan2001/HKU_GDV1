@@ -24,8 +24,6 @@ public class Player : ICollideable, IDamageable<int>
 	/// <summary> The sprite of the Player Gameobject. </summary>
 	public Sprite Sprite { get; private set; }
 	/// <summary> The Rigidbody2D Component of the Player. </summary>
-	public Rigidbody2D Rb2d { get; private set; }
-	/// <summary> The SpriteRenderer Component of the Player. </summary>
 	public SpriteRenderer SpriteRenderer { get; private set; }
 	/// <summary> The BoxCollider2D Component of the Bullet. </summary>
 	public BoxCollider2D BoxCollider2D { get; private set; }
@@ -48,9 +46,6 @@ public class Player : ICollideable, IDamageable<int>
 		PlayerGO.name = "Player";
 		PlayerGO.transform.localScale = new Vector3(Size, Size, Size);
 
-		Rigidbody2D rb2d = PlayerGO.AddComponent<Rigidbody2D>();
-		Rb2d = rb2d;
-
 		BoxCollider2D boxCollider2D = PlayerGO.AddComponent<BoxCollider2D>();
 		BoxCollider2D = boxCollider2D;
 		BoxCollider2D.size = new Vector2(Size, Size);
@@ -71,7 +66,6 @@ public class Player : ICollideable, IDamageable<int>
 	/// </summary>
 	public bool IsColliding()
 	{
-		Debug.Log(PlayerGO.name + " is checking for Collision.");
 		Collider2D[] collisions = Physics2D.OverlapCircleAll(PlayerGO.transform.position, Size, collisionMask);
 
 		if(!HasCollided)
@@ -80,7 +74,6 @@ public class Player : ICollideable, IDamageable<int>
 			{
 				if(collider != this.BoxCollider2D)
 				{
-					Debug.Log(PlayerGO.name + " has collided with: " + collider.name);
 					HasCollided = true;
 					return true;
 				}
@@ -102,7 +95,6 @@ public class Player : ICollideable, IDamageable<int>
 
 	public void OnCollision()
 	{
-		Debug.Log(PlayerGO.name + " OnCollision()");
 		Damage(1);
 	}
 }

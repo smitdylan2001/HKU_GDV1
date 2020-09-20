@@ -48,11 +48,11 @@ public class GameManager : MonoBehaviour
 		EventManager.InvokeEvent(EventType.ON_LOGIC_UPDATE);
 
 		inputManager.HandleInput();
-		CollisionManager.Update();
 	}
 
 	void FixedUpdate()
 	{
+		CollisionManager.Update();
 		EventManager.InvokeEvent(EventType.ON_PHYSICS_UPDATE);
 	}
 
