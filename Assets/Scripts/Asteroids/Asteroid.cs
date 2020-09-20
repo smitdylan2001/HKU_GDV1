@@ -37,6 +37,8 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 		ThisAsteroid.layer = LayerMask.NameToLayer("Asteroid");
 
 		HasCollided = false;
+    
+		EventManager<Collider2D>.AddListener(EventType.ON_ASTEROID_HIT, AsteroidHit);
 	}
 
 	/// <summary>
@@ -45,6 +47,14 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	public void Update()
 	{
 		Move();
+	}
+
+	/// <summary>
+	/// Check if this asteroid is hit
+	/// </summary>
+	private void AsteroidHit(Collider2D collider)
+	{
+		Damage(1);
 	}
 
 	/// <summary>
@@ -61,7 +71,8 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	/// </summary>
 	private void Move()
 	{
-		ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x + _movementDirection.x, ThisAsteroid.transform.position.y + _movementDirection.y, ThisAsteroid.transform.position.z);
+		ThisAsteroid.transform.Translate(_movementDirection.x, _movementDirection.y, 0);
+		//ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x + _movementDirection.x, ThisAsteroid.transform.position.y + _movementDirection.y, ThisAsteroid.transform.position.z);
 	}
 
 	/// <summary>
