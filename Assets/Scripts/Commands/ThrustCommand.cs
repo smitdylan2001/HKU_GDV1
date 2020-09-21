@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ThrustCommand : IGameObjectCommand
 {
-    //Movementspeed
+	//Movementspeed
 	private float _thrustPower = 5f;
 	/// <summary>
 	/// Move gameobject forward
