@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+/// The CollisionManager is responsible for handling the collisions between all the ICollideable within the scene.
+/// </summary>
 public static class CollisionManager
 {
 	public static List<ICollideable> Collideables { get; private set; }
@@ -23,12 +26,14 @@ public static class CollisionManager
 			}
 		}
 
-		foreach(ICollideable onCollisionCollideable in _onCollisionColliders.ToList())
+		if(_onCollisionColliders.Count > 0)
 		{
-			onCollisionCollideable.OnCollision();
+			foreach(ICollideable onCollisionCollideable in _onCollisionColliders.ToList())
+			{
+				onCollisionCollideable.OnCollision();
+			}
+			_onCollisionColliders.Clear();
 		}
-
-		_onCollisionColliders.Clear();
 	}
 }
 

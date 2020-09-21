@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : ICollideable, IProjectile, IPoolable
 {
@@ -8,7 +7,7 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 	/// <summary> Reference to the Bullet GameObject. </summary>
 	public GameObject BulletGO { get; private set; }
 	/// <summary> The speed at which the bullet travels. </summary>
-	[SerializeField] private float _bulletSpeed = 10f; 
+	private float _bulletSpeed = 10f;
 	public bool Active { get; set; }
 	/// <summary> Starting Position of the bullet. </summary>
 	private Vector2 _pos;
@@ -59,26 +58,23 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 	{
 		Collider2D[] collisions = Physics2D.OverlapCircleAll(BulletGO.gameObject.transform.position, _size, _collisionMask);
 
-		if(!HasCollided)
+		if(collisions.Length > 0)
 		{
 			foreach(Collider2D collider in collisions)
 			{
 				if(collider != this._boxCollider2D)
 				{
-					HasCollided = true;
-					
-					EventManager<Bullet>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
 					return true;
 				}
 			}
 		}
 
-		HasCollided = false;
 		return false;
 	}
 
 	public void OnCollision()
 	{
+		Debug.Log(BulletGO.name + " Collided!");
 		EventManager<Bullet>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
 	}
 
@@ -87,8 +83,8 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 		BulletGO.transform.position = startPos;
 		BulletGO.transform.rotation = Quaternion.Euler(0, 0, direction);
 		BulletGO.transform.localScale = new Vector3(size, size, size);
-		Debug.Log(BulletGO.transform.localScale);
 		_boxCollider2D.size = new Vector2(size, size);
+		_size = size;
 
 		HasCollided = false;
 	}
