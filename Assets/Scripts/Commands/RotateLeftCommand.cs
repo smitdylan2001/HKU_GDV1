@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This command is used to Rotate the Player Left.
+/// </summary>
 public class RotateLeftCommand : IGameObjectCommand
 {
 	private float _rotationPower = 150;

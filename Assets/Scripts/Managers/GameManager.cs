@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
 	/// <summary> AsteroidsManager Instance. </summary>
 	public AsteroidsManager AsteroidsManager { get; private set; }
+
+	/// <summary> ProjectileManager Instance. </summary>
 	public ProjectileManager ProjectileManager { get; set; }
 
 	/// <summary> The inputManager that handles all playerinput (i.e. moving or shooting) </summary>
@@ -31,7 +33,6 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		
 		CollisionManager.Init();
 
 		PopulateGameStartEvent();
@@ -47,13 +48,11 @@ public class GameManager : MonoBehaviour
 		AddUIEventListeners();
 
 		UIManager.FindCanvas();
-		UIManager.AddTextUIElement(new Vector3(0,460),"0","scoreText", UIManager.Canvas.transform, 30f);
+		UIManager.AddTextUIElement(new Vector3(0, 460), "0", "scoreText", UIManager.CANVAS.transform, 30f);
 	}
 	private void Update()
 	{
 		EventManager.InvokeEvent(EventType.ON_LOGIC_UPDATE);
-
-		
 
 		inputManager.HandleInput();
 	}
@@ -64,6 +63,9 @@ public class GameManager : MonoBehaviour
 		EventManager.InvokeEvent(EventType.ON_PHYSICS_UPDATE);
 	}
 
+	/// <summary>
+	/// Populates the Game Start Event.
+	/// </summary>
 	private void PopulateGameStartEvent()
 	{
 		_startGame += CreatePlayer;
@@ -72,6 +74,9 @@ public class GameManager : MonoBehaviour
 		EventManager.AddListener(EventType.ON_GAME_START, _startGame);
 	}
 
+	/// <summary>
+	/// Populates the Game Logic Update Event.
+	/// </summary>
 	private void PopulateGameLogicUpdateEvent()
 	{
 		inputManager.HandleInput();
@@ -79,29 +84,44 @@ public class GameManager : MonoBehaviour
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, _logicUpdate);
 	}
 
+	/// <summary>
+	/// Populates the Game Physics Update Event.
+	/// </summary>
 	private void PopulateGamePhysicsEvent()
 	{
 		_physicsUpdate += AsteroidsManager.PhysicsUpdate;
 		EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, _physicsUpdate);
 	}
 
+	/// <summary>
+	/// Creates the Player. Also add the Player to the CollisionManager,
+	/// </summary>
 	private void CreatePlayer()
 	{
 		Player = new Player();
-		CollisionManager.Collideables.Add(Player);
+		CollisionManager.COLLIDEABLES.Add(Player);
 	}
 
+	/// <summary>
+	/// Creates the Managers as these need to set before they can used.
+	/// </summary>
 	private void CreateManagers()
 	{
 		ProjectileManager = new ProjectileManager();
 		AsteroidsManager = new AsteroidsManager();
 	}
 
+	/// <summary>
+	/// Adds UI Event Listeners.
+	/// </summary>
 	private void AddUIEventListeners()
 	{
-		EventManager<int>.AddListener(EventType.ON_UI_UPDATE,ScoreManager.UpdateScore);
+		EventManager<int>.AddListener(EventType.ON_UI_UPDATE, ScoreManager.UpdateScore);
 	}
 
+	/// <summary>
+	/// Sets and Populates all the Commands with their Methods and KeyCode.
+	/// </summary>
 	private void SetAndPopulateInput()
 	{
 		inputManager = new InputManager();

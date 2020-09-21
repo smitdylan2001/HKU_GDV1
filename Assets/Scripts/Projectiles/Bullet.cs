@@ -46,7 +46,7 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 
 		HasCollided = false;
 
-		CollisionManager.Collideables.Add(this);
+		CollisionManager.COLLIDEABLES.Add(this);
 	}
 
 	/// <summary>

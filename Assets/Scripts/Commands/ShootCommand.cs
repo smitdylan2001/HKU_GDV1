@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This class is used to shoot a Bullet from the Player position towards where the player is facing.
+/// </summary>
 public class ShootCommand : IGameObjectCommand
 {
-	/// <summary>
-	/// Shoots a bullet from a gameobject
-	/// </summary>
-	/// <param name="origin"></param>
 	public void Execute(GameObject origin)
-    {
-		if (ProjectileManager._bulletPool._activePool.Count > 15)
+	{
+		if(ProjectileManager.BULLET_POOL._activePool.Count > 15)
 		{
-			ProjectileManager._bulletPool.ReturnObjectToInactive(ProjectileManager._bulletPool._activePool[0]);
+			ProjectileManager.BULLET_POOL.ReturnObjectToInactive(ProjectileManager.BULLET_POOL._activePool[0]);
 		}
-		ProjectileManager._bulletPool.RequestItem(0.25f, origin.transform.position, origin.transform.rotation.eulerAngles.z);
+		ProjectileManager.BULLET_POOL.RequestItem(0.25f, origin.transform.position, origin.transform.rotation.eulerAngles.z);
 	}
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 /// <summary>
 /// The types of events
@@ -23,7 +21,7 @@ public static class EventManager
 	/// <summary>
 	/// The dictionary all events are stored in
 	/// </summary>
-	private static Dictionary<EventType, System.Action> eventDictionary = new Dictionary<EventType, System.Action>();
+	private static Dictionary<EventType, System.Action> EVENT_DICTIONAIRY = new Dictionary<EventType, System.Action>();
 
 	/// <summary>
 	/// Adds a listener
@@ -32,11 +30,11 @@ public static class EventManager
 	/// <param name="function"></param>
 	public static void AddListener(EventType type, System.Action function)
 	{
-		if(!eventDictionary.ContainsKey(type))
+		if(!EVENT_DICTIONAIRY.ContainsKey(type))
 		{
-			eventDictionary.Add(type, null);
+			EVENT_DICTIONAIRY.Add(type, null);
 		}
-		eventDictionary[type] += function;
+		EVENT_DICTIONAIRY[type] += function;
 	}
 	/// <summary>
 	/// Removes a listener
@@ -45,9 +43,9 @@ public static class EventManager
 	/// <param name="function"></param>
 	public static void RemoveListener(EventType type, System.Action function)
 	{
-		if(eventDictionary.ContainsKey(type) && eventDictionary[type] != null)
+		if(EVENT_DICTIONAIRY.ContainsKey(type) && EVENT_DICTIONAIRY[type] != null)
 		{
-			eventDictionary[type] -= function;
+			EVENT_DICTIONAIRY[type] -= function;
 		}
 	}
 
@@ -58,7 +56,7 @@ public static class EventManager
 	public static void InvokeEvent(EventType type)
 	{
 		//if(eventDictionary[type] != null) Debug.Log(eventDictionary[type]);
-		eventDictionary[type]?.Invoke();
+		EVENT_DICTIONAIRY[type]?.Invoke();
 	}
 }
 
@@ -79,7 +77,7 @@ public static class EventManager<T>
 	/// <param name="type"></param>
 	/// <param name="function"></param>
 	public static void AddListener(EventType type, System.Action<T> function)
-	{ 
+	{
 		if(!EVENT_DICTIONARY.ContainsKey(type))
 		{
 			EVENT_DICTIONARY.Add(type, null);
