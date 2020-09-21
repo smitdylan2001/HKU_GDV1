@@ -5,9 +5,12 @@ public static class CollisionManager
 {
 	public static List<ICollideable> Collideables { get; private set; }
 
+	private static List<ICollideable> _onCollisionColliders;
+
 	public static void Init()
 	{
 		Collideables = new List<ICollideable>();
+		_onCollisionColliders = new List<ICollideable>();
 	}
 
 	public static void Update()
@@ -16,9 +19,16 @@ public static class CollisionManager
 		{
 			if(collideable.IsColliding())
 			{
-				collideable.OnCollision();
+				_onCollisionColliders.Add(collideable);
 			}
 		}
+
+		foreach(ICollideable onCollisionCollideable in _onCollisionColliders.ToList())
+		{
+			onCollisionCollideable.OnCollision();
+		}
+
+		_onCollisionColliders.Clear();
 	}
 }
 
