@@ -24,15 +24,15 @@ public class GameManager : MonoBehaviour
 
 	/// <summary> AsteroidsManager Instance. </summary>
 	public AsteroidsManager AsteroidsManager { get; private set; }
+	public ProjectileManager ProjectileManager { get; set; }
 
 	/// <summary> The inputManager that handles all playerinput (i.e. moving or shooting) </summary>
 	public InputManager inputManager { get; private set; }
 
-	void Start()
+	private void Start()
 	{
 		
 		CollisionManager.Init();
-		ProjectileManager.Init();
 
 		PopulateGameStartEvent();
 
@@ -53,12 +53,12 @@ public class GameManager : MonoBehaviour
 	{
 		EventManager.InvokeEvent(EventType.ON_LOGIC_UPDATE);
 
-		ProjectileManager.Update();
+		
 
 		inputManager.HandleInput();
 	}
 
-	void FixedUpdate()
+	private void FixedUpdate()
 	{
 		CollisionManager.Update();
 		EventManager.InvokeEvent(EventType.ON_PHYSICS_UPDATE);
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 	private void PopulateGameStartEvent()
 	{
 		_startGame += CreatePlayer;
-		_startGame += CreateAsteroidSpawner;
+		_startGame += CreateManagers;
 
 		EventManager.AddListener(EventType.ON_GAME_START, _startGame);
 	}
@@ -82,7 +82,6 @@ public class GameManager : MonoBehaviour
 	private void PopulateGamePhysicsEvent()
 	{
 		_physicsUpdate += AsteroidsManager.PhysicsUpdate;
-
 		EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, _physicsUpdate);
 	}
 
@@ -92,8 +91,9 @@ public class GameManager : MonoBehaviour
 		CollisionManager.Collideables.Add(Player);
 	}
 
-	private void CreateAsteroidSpawner()
+	private void CreateManagers()
 	{
+		ProjectileManager = new ProjectileManager();
 		AsteroidsManager = new AsteroidsManager();
 	}
 

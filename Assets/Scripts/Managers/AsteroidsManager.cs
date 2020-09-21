@@ -8,7 +8,6 @@ public class AsteroidsManager
 	public System.Action _asteroidDestroyed;
 
 	private ObjectPool<Asteroid> _asteroidPool;
-	private Sprite _sprite;
 
 	/// <summary>
 	/// Make asteroids list, load sprite and add event
@@ -16,9 +15,8 @@ public class AsteroidsManager
 	public AsteroidsManager()
 	{
 		_asteroidPool = new ObjectPool<Asteroid>();
-		_sprite = Resources.Load<Sprite>("Sprites/Asteroid");
-		SpawnAsteroid(Random.Range(15, 23), 1);
-		EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed); //TODO test
+		SpawnAsteroid(Random.Range(15, 23));
+		EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
 	}
 
 	public void PhysicsUpdate()
@@ -32,7 +30,7 @@ public class AsteroidsManager
 	/// <summary>
 	/// Function called if asteroid is destroyed
 	/// </summary>
-	void OnAsteroidDestroyed(Asteroid asteroid)
+	private void OnAsteroidDestroyed(Asteroid asteroid)
 	{
 		_asteroidPool.ReturnObjectToInactive(asteroid);
 		
@@ -41,14 +39,13 @@ public class AsteroidsManager
 			SpawnAsteroid(2, asteroid.Size / 2, asteroid.ThisAsteroid.transform.position);
 		}
 
-
 		CollisionManager.Collideables.Remove(asteroid);
 	}
 
 	/// <summary>
 	/// Function that can be called to spawn any number if asteroids with a set size
 	/// </summary>
-	public void SpawnAsteroid(int amount, float size)
+	private void SpawnAsteroid(int amount)
 	{
 		for(int i = 0; i < amount; i++)
 		{
@@ -60,13 +57,13 @@ public class AsteroidsManager
 	/// <summary>
 	/// Function that can be called to spawn any number if asteroids with a set size and start position
 	/// </summary>
-	public void SpawnAsteroid(int amount, float size, Vector3 startPos)
+	private void SpawnAsteroid(int amount, float size, Vector3 startPos)
 	{
 		if(_asteroidPool._activePool.Count < 35)
 		{
 			for(int i = 0; i < amount; i++)
 			{
-				Asteroid asteroid = _asteroidPool.RequestItem(size, startPos);
+				Asteroid asteroid = _asteroidPool.RequestItem(size, startPos, Random.Range(0, 360));
 				CollisionManager.Collideables.Add(asteroid);
 			}
 		}

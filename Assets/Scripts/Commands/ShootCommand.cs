@@ -2,15 +2,16 @@
 
 public class ShootCommand : IGameObjectCommand
 {
-	//Speed of the bullet
-	float _bulletSpeed = 10f;
-
 	/// <summary>
 	/// Shoots a bullet from a gameobject
 	/// </summary>
 	/// <param name="origin"></param>
 	public void Execute(GameObject origin)
     {
-        new Bullet(origin.transform.position, 0.25f, origin.transform.rotation, _bulletSpeed);
-    }
+		if (ProjectileManager._bulletPool._activePool.Count > 15)
+		{
+			ProjectileManager._bulletPool.ReturnObjectToInactive(ProjectileManager._bulletPool._activePool[0]);
+		}
+		ProjectileManager._bulletPool.RequestItem(0.25f, origin.transform.position, origin.transform.rotation.eulerAngles.z);
+	}
 }

@@ -21,11 +21,11 @@ public class ObjectPool<T> where T : IPoolable
     /// <summary> 
     /// Add new item and add it to the active pool with overflow for smaller asteroids
     /// </summary>
-    private T AddNewItemToPool(float size, UnityEngine.Vector3 startPos)
+    private T AddNewItemToPool(float size, UnityEngine.Vector3 startPos, float rotation)
     {
         T instance = (T)Activator.CreateInstance(typeof(T));
         _activePool.Add(instance);
-        instance.OnActivate(size, startPos, UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0.0005f, 0.03f));
+        instance.OnActivate(size, startPos, rotation, UnityEngine.Random.Range(0.0005f, 0.03f));
         return instance;
     }
 
@@ -45,13 +45,13 @@ public class ObjectPool<T> where T : IPoolable
     /// Same as above with overflow for smaller objects with positions. Request an item with 2 viriables. If there are items inactive use that, otherwise add a new item
     /// </summary>
     //  TODO: Clean up to use an interface instead of variables in the overflow
-    public T RequestItem(float size, UnityEngine.Vector3 startPos)
+    public T RequestItem(float size, UnityEngine.Vector3 startPos, float rotation)
     {
         if (_inactivePool.Count > 0)
         {
-            return ActivateItem(_inactivePool[0], size, startPos);
+            return ActivateItem(_inactivePool[0], size, startPos, rotation);
         }
-        return ActivateItem(AddNewItemToPool(size, startPos));
+        return ActivateItem(AddNewItemToPool(size, startPos, rotation), size, startPos, rotation);
     }
 
     /// <summary> 
@@ -74,10 +74,10 @@ public class ObjectPool<T> where T : IPoolable
     /// Same as above. Activate item with overflow for smaller objects with positions 
     /// </summary>
     //  TODO: Clean up to use an interface instead of variables in the overflow
-    public T ActivateItem(T item, float size, UnityEngine.Vector3 startPos)
+    public T ActivateItem(T item, float size, UnityEngine.Vector3 startPos, float rotation)
     {
-        //              size, startPosition, Direction                  , Speed);
-        item.OnActivate(size, startPos, UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0.0005f, 0.03f));
+        //              size, startPosition, Direction, Speed);
+        item.OnActivate(size, startPos, rotation, UnityEngine.Random.Range(0.0005f, 0.03f));
         item.Active = true;
         if (_inactivePool.Contains(item))
         {

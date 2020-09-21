@@ -1,20 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Diagnostics;
 
-public static class ProjectileManager
+public class ProjectileManager
 {
-	public static List<IProjectile> Projectiles { get; private set; }
+	public static ObjectPool<Bullet> _bulletPool;
 
-	public static void Init()
+	public ProjectileManager()
 	{
-		Projectiles = new List<IProjectile>();
+		_bulletPool = new ObjectPool<Bullet>();
+
+		EventManager<Bullet>.AddListener(EventType.ON_ASTEROID_DESTROYED, DestroyProjectile);
+		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, Update);
+		
 	}
 
-	public static void Update()
+	public void Update()
 	{
-		foreach(IProjectile projectile in Projectiles.ToList())
+
+		foreach (Bullet projectile in _bulletPool._activePool) 
 		{
 			projectile.Update();
 		}
+	}
+
+	private void DestroyProjectile(Bullet bullet)
+	{
+		
+		_bulletPool.ReturnObjectToInactive(bullet);
 	}
 }

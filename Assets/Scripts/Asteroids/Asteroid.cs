@@ -10,7 +10,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 	public bool HasCollided { get; set; }
 
 	/// <summary> Which Layers to check for collision. </summary>
-	public LayerMask collisionMask { get; private set; }
+	private LayerMask _collisionMask;
 	private Vector3 _movementDirection;
 	private SpriteRenderer _spriteRenderer;
 	private BoxCollider2D _boxCollider2D;
@@ -33,7 +33,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 		_boxCollider2D = ThisAsteroid.GetComponent<BoxCollider2D>();
 		_boxCollider2D.isTrigger = true;
 
-		collisionMask = ~LayerMask.GetMask("Asteroid");
+		_collisionMask = ~LayerMask.GetMask("Asteroid");
 		ThisAsteroid.layer = LayerMask.NameToLayer("Asteroid");
 
 		HasCollided = false;
@@ -125,7 +125,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 	/// </summary>
 	public bool IsColliding()
 	{
-		Collider2D[] collisions = Physics2D.OverlapCircleAll(ThisAsteroid.transform.position, Size, collisionMask);
+		Collider2D[] collisions = Physics2D.OverlapCircleAll(ThisAsteroid.transform.position, Size, _collisionMask);
 
 		if(!HasCollided)
 		{
@@ -134,6 +134,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 				if(collider != this._boxCollider2D)
 				{
 					HasCollided = true;
+
 					return true;
 				}
 			}
