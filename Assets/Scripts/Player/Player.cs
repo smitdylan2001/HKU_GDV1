@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// The Player Class holds all the members and functionality for the Player Object.
@@ -10,17 +9,11 @@ public class Player : ICollideable, IDamageable<int>
 	public int Health { get; private set; }
 	/// <summary> Size of the Player. </summary>
 	public float Size { get; private set; }
-	/// <summary> The Rotation member of the player. </summary>
-	public float Rotation { get; private set; }
-	/// <summary> The Thrusting Power of the player. </summary>
-	public float ThrustPower { get; private set; }
-	/// <summary> The Rotation Power of the player. </summary>
-	public float RotationPower { get; private set; }
 	/// <summary> ICollideable HasCollided Implementation. </summary>
 	public bool HasCollided { get; set; }
 
 	/// <summary> Which Layers to check for collision. </summary>
-	public LayerMask collisionMask { get; private set; }
+	public LayerMask CollisionMask { get; private set; }
 	/// <summary> The sprite of the Player Gameobject. </summary>
 	public Sprite Sprite { get; private set; }
 	/// <summary> The Rigidbody2D Component of the Player. </summary>
@@ -30,32 +23,29 @@ public class Player : ICollideable, IDamageable<int>
 	/// <summary> The player gameobject for other classes to get</summary>
 	public GameObject PlayerGO { get; private set; }
 
-
 	/// <summary>
 	/// Constructor of the Player Class.
 	/// </summary>
-	public Player(int health = 100, float size = 0.25f, float thrustPower = 50, float rotationPower = 150)
+	public Player(int health = 100, float size = 0.25f)
 	{
 		Health = health;
 		Size = size;
-		ThrustPower = thrustPower;
-		RotationPower = rotationPower;
 
-		Sprite sprite = Resources.Load<Sprite>("Sprites/Player");
+		Sprite = Resources.Load<Sprite>("Sprites/Player");
 		PlayerGO = new GameObject();
 		PlayerGO.name = "Player";
 		PlayerGO.transform.localScale = new Vector3(Size, Size, Size);
 
 		BoxCollider2D boxCollider2D = PlayerGO.AddComponent<BoxCollider2D>();
 		BoxCollider2D = boxCollider2D;
-		BoxCollider2D.size = new Vector2(Size, Size);
+		BoxCollider2D.size = new Vector2(1, 1);
 		BoxCollider2D.isTrigger = true;
 
 		SpriteRenderer spriteRenderer = PlayerGO.AddComponent<SpriteRenderer>();
 		SpriteRenderer = spriteRenderer;
-		SpriteRenderer.sprite = sprite;
+		SpriteRenderer.sprite = Sprite;
 
-		collisionMask = ~LayerMask.GetMask("Player", "Projectile");
+		CollisionMask = ~LayerMask.GetMask("Player", "Projectile");
 		PlayerGO.layer = LayerMask.NameToLayer("Player");
 
 		HasCollided = false;
@@ -66,7 +56,7 @@ public class Player : ICollideable, IDamageable<int>
 	/// </summary>
 	public bool IsColliding()
 	{
-		Collider2D[] collisions = Physics2D.OverlapCircleAll(PlayerGO.transform.position, Size, collisionMask);
+		Collider2D[] collisions = Physics2D.OverlapCircleAll(PlayerGO.transform.position, Size, CollisionMask);
 
 		if(!HasCollided)
 		{
