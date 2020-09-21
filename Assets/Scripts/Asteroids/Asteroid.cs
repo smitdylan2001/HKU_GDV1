@@ -40,7 +40,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 	}
 
 	/// <summary>
-	/// Update Method.
+	/// Update Method. Called once per fixed update
 	/// </summary>
 	public void UpdateAsteroid()
 	{
@@ -50,7 +50,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 
 
 	/// <summary>
-	/// Damage implementation
+	/// Damage implementation, destroys asteroid
 	/// </summary>
 	public void Damage(int damageTaken)
 	{
@@ -58,7 +58,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 	}
 
 	/// <summary>
-	/// Asteroids movement implementation
+	/// Asteroids movement implementation using transform.translation
 	/// </summary>
 	private void Move()
 	{
@@ -66,7 +66,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 	}
 
 	/// <summary>
-	/// Check if asteroids are off screen and wrap them
+	/// Check if asteroids are off screen and wrap them if they are
 	/// </summary>
 	private void CheckPosition()
 	{
@@ -89,7 +89,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 	}
 
 	/// <summary>
-	/// Asteroids destruction implementation
+	/// Asteroids destruction implementation. Will invoke on ui update, adds 1 point and invoke on asteroid destroyed
 	/// </summary>
 	private void Destroy()
 	{
@@ -98,7 +98,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 	}
 
 	/// <summary>
-	/// Done when Asteroid is activated
+	/// Excecuted when asteroid is reactivated. It will set all values to the desired valued
 	/// </summary>
 	public void OnActivate(float size, Vector3 startPos, float direction, float speed)
 	{
@@ -113,7 +113,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 	}
 
 	/// <summary>
-	/// Done when Asteroid is deactivated
+	/// Done when Asteroid is deactivated. Right now only disables the object
 	/// </summary>
 	public void OnDisable()
 	{
@@ -147,6 +147,9 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 		Damage(1);
 	}
 
+	/// <summary>
+	/// Adds 1 point to the score
+	/// </summary>
 	public void AddScore(int scoreToAdd)
 	{
 		ScoreManager.Score += scoreToAdd;

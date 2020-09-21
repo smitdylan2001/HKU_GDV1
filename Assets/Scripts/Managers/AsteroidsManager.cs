@@ -19,6 +19,9 @@ public class AsteroidsManager
 		EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed);
 	}
 
+	/// <summary>
+	/// Updates the asteroids once per frame
+	/// </summary>
 	public void PhysicsUpdate()
 	{
 		foreach(Asteroid asteroid in _asteroidPool._activePool)
@@ -28,7 +31,7 @@ public class AsteroidsManager
 	}
 
 	/// <summary>
-	/// Function called if asteroid is destroyed
+	/// Function called if asteroid is destroyed. Will return the destroyed asteroid to inactive and spawn 2 new ones.
 	/// </summary>
 	private void OnAsteroidDestroyed(Asteroid asteroid)
 	{

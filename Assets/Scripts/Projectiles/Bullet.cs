@@ -22,6 +22,9 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 	/// <summary> The BoxCollider2D Component of the Bulletss. </summary>
 	private BoxCollider2D _boxCollider2D;
 
+	/// <summary>
+	/// instantiates bullet and makes a new game object with all needed components
+	/// </summary>
 	public Bullet()
 	{
 		BulletGO = new GameObject
@@ -46,6 +49,9 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 		CollisionManager.Collideables.Add(this);
 	}
 
+	/// <summary>
+	/// Updates the bullet. Right now only moves it using transform.translate
+	/// </summary>
 	public void Update()
 	{
 		BulletGO.transform.Translate(BulletGO.transform.up * _bulletSpeed * Time.deltaTime, Space.World);
@@ -78,6 +84,9 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 		EventManager<Bullet>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
 	}
 
+	/// <summary>
+	/// Excecuted when bullet is reactivated. It will set all values to the desired valued
+	/// </summary>
 	public void OnActivate(float size, Vector3 startPos, float direction, float speed)
 	{
 		BulletGO.transform.position = startPos;
@@ -90,6 +99,9 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 		BulletGO.SetActive(true);
 	}
 
+	/// <summary>
+	/// Done when bullet is deactivated. Right now only disables the object
+	/// </summary>
 	public void OnDisable()
 	{
 		BulletGO.SetActive(false);
