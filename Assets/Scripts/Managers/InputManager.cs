@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class InputManager
 {
+	/// <summary> This list keeps track of all the simple keycommands </summary>
 	private List<KeyCommand>	   _keyCommands = new List<KeyCommand>();
+	/// <summary> This list keeps track of all the keycommands that need to come from a point of origin </summary>
 	private List<KeyOriginCommand> _keyOriginCommands = new List<KeyOriginCommand>();
+	/// <summary> This list keeps track of all the keycommands that need to come from a point of origin as an GetButtonDown input </summary>
 	private List<KeyOriginCommand> _keyOriginCommandsDown = new List<KeyOriginCommand>();
 
+
+	/// <summary>
+	/// This method is responsible for 
+	/// </summary>
 	public void HandleInput()
 	{
 		//Input onkeydown without origin
@@ -36,6 +43,11 @@ public class InputManager
 	}
 
 	#region InputWithoutCommand
+	/// <summary>
+	/// This binds a key to a command
+	/// </summary>
+	/// <param name="keyCode"></param>
+	/// <param name="command"></param>
 	public void BindInputToCommand(KeyCode keyCode, ICommand command)
 	{
 		_keyCommands.Add(new KeyCommand()
@@ -44,7 +56,10 @@ public class InputManager
 			_command = command
 		});
 	}
-
+	/// <summary>
+	/// This unbinds a key from a command
+	/// </summary>
+	/// <param name="keyCode"></param>
 	public void UnbindInput(KeyCode keyCode)
 	{
 		var items = _keyCommands.FindAll(x => x._key == keyCode);
@@ -53,6 +68,12 @@ public class InputManager
 	#endregion
 
 	#region InputWithCommand
+	/// <summary>
+	/// This binds a key to a command with a point of origin
+	/// </summary>
+	/// <param name="keyCode"></param>
+	/// <param name="command"></param>
+	/// <param name="origin"></param>
 	public void BindInputToCommandWithOrigin(KeyCode keyCode, IGameObjectCommand command, GameObject origin)
 	{
 		_keyOriginCommands.Add(new KeyOriginCommand()
@@ -63,6 +84,10 @@ public class InputManager
 		});
 	}
 
+	/// <summary>
+	/// Unbinds an input with origin from a command
+	/// </summary>
+	/// <param name="keyCode"></param>
 	public void UnbindInputWithOrigin(KeyCode keyCode)
 	{
 		var items = _keyOriginCommands.FindAll(x => x._key == keyCode);
@@ -71,6 +96,12 @@ public class InputManager
 	#endregion
 
 	#region InputWithCommandDown
+	/// <summary>
+	/// binds an input with an origin to a command for OnButtonDown input
+	/// </summary>
+	/// <param name="keyCode"></param>
+	/// <param name="command"></param>
+	/// <param name="origin"></param>
 	public void BindInputToCommandWithOriginDown(KeyCode keyCode, IGameObjectCommand command, GameObject origin)
 	{
 		_keyOriginCommandsDown.Add(new KeyOriginCommand()
@@ -80,7 +111,10 @@ public class InputManager
 			_origin = origin
 		});
 	}
-
+	/// <summary>
+	/// unbinds an input with an origin to a command for OnButtonDown input
+	/// </summary>
+	/// <param name="keyCode"></param>
 	public void UnbindInputWithOriginDown(KeyCode keyCode)
 	{
 		var items = _keyOriginCommandsDown.FindAll(x => x._key == keyCode);
@@ -90,11 +124,18 @@ public class InputManager
 	#endregion
 }
 
+/// <summary>
+/// This is a simple class that keeps a key and a command saved
+/// </summary>
 public class KeyCommand
 {
 	public KeyCode _key;
 	public ICommand _command;
 }
+
+/// <summary>
+/// This is a simple class that keeps a key, command and point of origin saved.
+/// </summary>
 public class KeyOriginCommand
 {
 	public KeyCode _key;
