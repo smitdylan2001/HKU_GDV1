@@ -10,15 +10,6 @@ public class AsteroidsManager
 	private ObjectPool<Asteroid> _asteroidPool;
 	private Sprite _sprite;
 
-	private int _timer;
-	private int _amountDestroyed;
-	int Timer
-	{
-		get { return _timer += 1; }
-		set {; }
-	}
-	[SerializeField] private int _timerCheck = 30;
-
 	/// <summary>
 	/// Make asteroids list, load sprite and add event
 	/// </summary>
@@ -26,7 +17,7 @@ public class AsteroidsManager
 	{
 		_asteroidPool = new ObjectPool<Asteroid>();
 		_sprite = Resources.Load<Sprite>("Sprites/Asteroid");
-		SpawnAsteroid(Random.Range(8, 20), 1);
+		SpawnAsteroid(Random.Range(15, 23), 1);
 		EventManager<Asteroid>.AddListener(EventType.ON_ASTEROID_DESTROYED, OnAsteroidDestroyed); //TODO test
 	}
 
@@ -34,11 +25,8 @@ public class AsteroidsManager
 	{
 		foreach(Asteroid asteroid in _asteroidPool._activePool)
 		{
-			asteroid.Update();
+			asteroid.UpdateAsteroid();
 		}
-
-		CheckAsteroidPosition();
-
 	}
 
 	/// <summary>
@@ -74,31 +62,13 @@ public class AsteroidsManager
 	/// </summary>
 	public void SpawnAsteroid(int amount, float size, Vector3 startPos)
 	{
-		for(int i = 0; i < amount; i++)
+		if(_asteroidPool._activePool.Count < 35)
 		{
-			Asteroid asteroid = _asteroidPool.RequestItem(size, startPos);
-			CollisionManager.Collideables.Add(asteroid);
-		}
-	}
-
-	private void CheckAsteroidPosition()
-	{
-		if(Timer >= _timerCheck)
-		{
-			_amountDestroyed = 0;
-			foreach(Asteroid asteroid in _asteroidPool._activePool.Reverse<Asteroid>())
+			for(int i = 0; i < amount; i++)
 			{
-				if(Screen.width < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x - 130 ||
-					0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).x + 130 ||
-					Screen.height < Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y - 130 ||
-					0 > Camera.main.WorldToScreenPoint(asteroid.ThisAsteroid.transform.position).y + 130)
-				{
-					_asteroidPool.ReturnObjectToInactive(asteroid);
-					_amountDestroyed += 1;
-				}
+				Asteroid asteroid = _asteroidPool.RequestItem(size, startPos);
+				CollisionManager.Collideables.Add(asteroid);
 			}
-			SpawnAsteroid(_amountDestroyed, 1);
-			_timer = 0;
 		}
 	}
 }

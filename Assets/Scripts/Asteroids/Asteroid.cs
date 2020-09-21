@@ -42,9 +42,10 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	/// <summary>
 	/// Update Method.
 	/// </summary>
-	public void Update()
+	public void UpdateAsteroid()
 	{
 		Move();
+		CheckPosition();
 	}
 
 
@@ -62,7 +63,29 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	private void Move()
 	{
 		ThisAsteroid.transform.Translate(_movementDirection.x, _movementDirection.y, 0);
-		//ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x + _movementDirection.x, ThisAsteroid.transform.position.y + _movementDirection.y, ThisAsteroid.transform.position.z);
+	}
+
+	/// <summary>
+	/// Check if asteroids are off screen and wrap them
+	/// </summary>
+	private void CheckPosition()
+	{   
+		if (Screen.width < Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).x - 100) 
+		{ 
+			ThisAsteroid.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector3(-100, 0, 0)).x, ThisAsteroid.transform.position.y, 0); 
+		}
+		else if (0 > Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).x + 100) 
+		{ 
+			ThisAsteroid.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x + 1, ThisAsteroid.transform.position.y, 0); 
+		}
+		else if (Screen.height < Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).y - 100) 
+		{ 
+			ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x, Camera.main.ScreenToWorldPoint(new Vector3(0, -100, 0)).y, 0); 
+		}
+		else if (0 > Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).y + 100) 
+		{ 
+			ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x, Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y + 1, 0); 
+		}
 	}
 
 	/// <summary>
@@ -84,7 +107,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 		ThisAsteroid.transform.localScale = new Vector3(size, size);
 		_boxCollider2D.size = new Vector2(Size, Size);
 
-		_movementDirection = new Vector3(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed); //TODO test if this works: add calculations from angle to vector and multiply by speed
+		_movementDirection = new Vector3(Mathf.Cos(direction) * speed, Mathf.Sin(direction) * speed);
 		ThisAsteroid.SetActive(true);
 	}
 
