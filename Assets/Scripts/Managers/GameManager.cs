@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 	/// <summary> The inputManager that handles all playerinput (i.e. moving or shooting) </summary>
 	public InputManager inputManager { get; private set; }
 
-	void Start()
+	private void Start()
 	{
 		CollisionManager.Init();
 		ProjectileManager.Init();
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 		inputManager.HandleInput();
 	}
 
-	void FixedUpdate()
+	private void FixedUpdate()
 	{
 		CollisionManager.Update();
 		EventManager.InvokeEvent(EventType.ON_PHYSICS_UPDATE);
