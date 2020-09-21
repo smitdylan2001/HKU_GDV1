@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Asteroid : ICollideable, IDamageable<int>, IPoolable
+public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<int>
 {
 	//public System.Action<Asteroid> _onDestroy;
 	public GameObject ThisAsteroid { get; private set; }
@@ -93,6 +93,15 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	/// </summary>
 	private void Destroy()
 	{
+		AddScore(1);
+		/*TODO: This line of code beneath this comment is one massive MAMMOTH of hard-coded spaghetti,
+		*       if I (Joris) were to implement this correctly I would do the following:
+				-I would make the _uiTextElements list a dictionary to prevent having to use arbitrary numbers to get a specific UI field
+				-I would make a UI_UPDATE_EVENT in the eventmanager that handles the updating of the UI
+				-I would not put this line of code here in its entirety because the asteroid has nothing to do with updating the UI at all
+		  Sadly I'm afraid that the monkey-brain-compile time of adding this all exceeds the deadline to that's the reason for this comment.
+		*/
+		UIManager.UpdateUITextElement(UIManager._uiTextElements[0].GetComponent<TMPro.TextMeshProUGUI>(), ScoreManager.Score.ToString());
 		EventManager<Asteroid>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
 	}
 
@@ -145,5 +154,10 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	public void OnCollision()
 	{
 		Damage(1);
+	}
+
+	public void AddScore(int scoreToAdd)
+	{
+		ScoreManager.Score += scoreToAdd;
 	}
 }
