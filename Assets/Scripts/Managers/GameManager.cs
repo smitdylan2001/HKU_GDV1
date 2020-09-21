@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
 	void Start()
 	{
+		
 		CollisionManager.Init();
 		ProjectileManager.Init();
 
@@ -43,6 +44,9 @@ public class GameManager : MonoBehaviour
 		// a.k.a. Null pointer when this isn't placed as last on Start.
 		PopulateGameLogicUpdateEvent();
 		PopulateGamePhysicsEvent();
+
+		UIManager.FindCanvas();
+		UIManager.AddTextUIElement(new Vector3(0,460),"Yeet","YeetText", UIManager.Canvas.transform, 30f);
 	}
 	private void Update()
 	{
@@ -95,10 +99,10 @@ public class GameManager : MonoBehaviour
 	private void SetAndPopulateInput()
 	{
 		inputManager = new InputManager();
-		var shootCommand = new ShootCommand();
-		var thrustCommand = new ThrustCommand();
-		var rotateLeftCommand = new RotateLeftCommand();
-		var rotateRightCommand = new RotateRightCommand();
+		ShootCommand shootCommand = new ShootCommand();
+		ThrustCommand thrustCommand = new ThrustCommand();
+		RotateLeftCommand rotateLeftCommand = new RotateLeftCommand();
+		RotateRightCommand rotateRightCommand = new RotateRightCommand();
 		inputManager.BindInputToCommandWithOrigin(KeyCode.Space, shootCommand, Player.PlayerGO);
 		inputManager.BindInputToCommandWithOriginDown(KeyCode.W, thrustCommand, Player.PlayerGO);
 		inputManager.BindInputToCommandWithOriginDown(KeyCode.A, rotateLeftCommand, Player.PlayerGO);
