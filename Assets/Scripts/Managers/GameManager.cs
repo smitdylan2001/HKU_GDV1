@@ -44,9 +44,10 @@ public class GameManager : MonoBehaviour
 		// a.k.a. Null pointer when this isn't placed as last on Start.
 		PopulateGameLogicUpdateEvent();
 		PopulateGamePhysicsEvent();
+		AddUIEventListeners();
 
 		UIManager.FindCanvas();
-		UIManager.AddTextUIElement(new Vector3(0,460),"Yeet","YeetText", UIManager.Canvas.transform, 30f);
+		UIManager.AddTextUIElement(new Vector3(0,460),"0","scoreText", UIManager.Canvas.transform, 30f);
 	}
 	private void Update()
 	{
@@ -94,6 +95,11 @@ public class GameManager : MonoBehaviour
 	{
 		ProjectileManager = new ProjectileManager();
 		AsteroidsManager = new AsteroidsManager();
+	}
+
+	private void AddUIEventListeners()
+	{
+		EventManager<int>.AddListener(EventType.ON_UI_UPDATE,ScoreManager.AddScore);
 	}
 
 	private void SetAndPopulateInput()

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Asteroid : ICollideable, IDamageable<int>, IPoolable
+public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<int>
 {
 	//public System.Action<Asteroid> _onDestroy;
 	public GameObject ThisAsteroid { get; private set; }
@@ -93,6 +93,7 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	/// </summary>
 	private void Destroy()
 	{
+		EventManager<int>.InvokeEvent(EventType.ON_UI_UPDATE, 1);
 		EventManager<Asteroid>.InvokeEvent(EventType.ON_ASTEROID_DESTROYED, this);
 	}
 
@@ -144,5 +145,10 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	{
 		Debug.Log(ThisAsteroid.name + " Collided!");
 		Damage(1);
+	}
+
+	public void AddScore(int scoreToAdd)
+	{
+		ScoreManager.Score += scoreToAdd;
 	}
 }

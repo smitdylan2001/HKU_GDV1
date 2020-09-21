@@ -6,16 +6,14 @@ using TMPro;
 
 public static class UIManager
 {
-    private static List<TextMeshProUGUI> _uiTextElements = new List<TextMeshProUGUI>();
-    private static List<TextMeshProUGUI> _uiSpriteElements = new List<TextMeshProUGUI>();
+    public static Dictionary<string,TextMeshProUGUI> _uiTextElements = new Dictionary<string,TextMeshProUGUI>();
+
     public static GameObject Canvas { get; set; }
 
-    
     public static void FindCanvas()
     {
         Canvas = GameObject.FindObjectOfType<Canvas>().gameObject;
     }
-
 
     /// <summary>
     /// Generates a piece of text on a position given by the user
@@ -39,32 +37,9 @@ public static class UIManager
         {
             Debug.LogError("UIManager can't add UI element without a canvas as its parent");
         }
-        _uiTextElements.Add(txt);
+        _uiTextElements.Add(editorName,txt);
 		txt.fontSize = fontSize;
 		txt.text = text;
-    }
-    /// <summary>
-    /// Adds an image/sprite UI element
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="path"></param>
-    /// <param name="editorName"></param>
-    /// <param name="parent"></param>
-    public static void AddSpriteUIElement(Vector2 position,string path ,string editorName, Transform parent)
-    {
-        GameObject imageGameObject = new GameObject();
-        Image img = imageGameObject.AddComponent<Image>();
-        img.sprite = (Sprite)Resources.Load(Application.dataPath + path);
-        RectTransform rTransform = imageGameObject.GetComponent<RectTransform>();
-        if (parent != null)
-        {
-            imageGameObject.transform.SetParent(parent.transform);
-            rTransform.localPosition = position;
-        }
-        else
-        {
-            Debug.LogError("UIManager can't add UI without a canvas as its parent");
-        }
     }
 
 	/// <summary>
@@ -76,5 +51,4 @@ public static class UIManager
     {
         textMesh.text = newText;
     }
-
 }

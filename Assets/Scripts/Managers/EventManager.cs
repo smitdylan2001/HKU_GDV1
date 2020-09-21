@@ -12,7 +12,8 @@ public enum EventType // EventType overwrites UnityEngine.EventType
 	ON_LOGIC_UPDATE = 2,
 	ON_PHYSICS_UPDATE = 3,
 	ON_ASTEROID_HIT = 4,
-	ON_ASTEROID_DESTROYED = 5
+	ON_ASTEROID_DESTROYED = 5,
+	ON_UI_UPDATE = 6
 }
 /// <summary>
 /// The manager that handles all the events without generic (Such as game start and end)
