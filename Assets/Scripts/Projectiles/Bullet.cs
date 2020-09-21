@@ -87,9 +87,11 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 		_size = size;
 
 		HasCollided = false;
+		BulletGO.SetActive(true);
 	}
 
 	public void OnDisable()
 	{
+		BulletGO.SetActive(false);
 	}
 }
