@@ -79,7 +79,7 @@ public static class EventManager<T>
 	/// <param name="type"></param>
 	/// <param name="function"></param>
 	public static void AddListener(EventType type, System.Action<T> function)
-	{
+	{ 
 		if(!EVENT_DICTIONARY.ContainsKey(type))
 		{
 			EVENT_DICTIONARY.Add(type, null);
