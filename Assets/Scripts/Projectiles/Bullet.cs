@@ -6,15 +6,11 @@ public class Bullet : ICollideable, IProjectile, IPoolable
 	public bool HasCollided { get; set; }
 	/// <summary> Reference to the Bullet GameObject. </summary>
 	public GameObject BulletGO { get; private set; }
+	public bool Active { get; set; }
 	/// <summary> The speed at which the bullet travels. </summary>
 	private float _bulletSpeed = 10f;
-	public bool Active { get; set; }
-	/// <summary> Starting Position of the bullet. </summary>
-	private Vector2 _pos;
 	/// <summary> Size of the Player. </summary>
 	private float _size;
-	/// <summary> The rotation of the Bullet. (We use a float because only 1 axis has to be rotated.) </summary>
-	private Quaternion _rotation;
 	/// <summary> Which Layers to check for collision. </summary>
 	private LayerMask _collisionMask;
 	/// <summary> Reference to the Rigibody2D component. </summary>

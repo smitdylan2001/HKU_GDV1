@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 		AddUIEventListeners();
 
 		UIManager.FindCanvas();
-		UIManager.AddTextUIElement(new Vector3(0, 460), "0", "scoreText", UIManager.CANVAS.transform, 30f);
+		UIManager.AddTextUIElement(new Vector3(0, 460), "0", "scoreText", UIManager.Canvas.transform, 30f);
 	}
 	private void Update()
 	{

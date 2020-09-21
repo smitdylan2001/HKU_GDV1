@@ -4,12 +4,11 @@ using UnityEngine;
 public class InputManager
 {
 	/// <summary> This list keeps track of all the simple keycommands </summary>
-	private List<KeyCommand>	   _keyCommands = new List<KeyCommand>();
+	private List<KeyCommand> _keyCommands = new List<KeyCommand>();
 	/// <summary> This list keeps track of all the keycommands that need to come from a point of origin </summary>
 	private List<KeyOriginCommand> _keyOriginCommands = new List<KeyOriginCommand>();
 	/// <summary> This list keeps track of all the keycommands that need to come from a point of origin as an GetButtonDown input </summary>
 	private List<KeyOriginCommand> _keyOriginCommandsDown = new List<KeyOriginCommand>();
-
 
 	/// <summary>
 	/// This method is responsible for 
@@ -17,25 +16,25 @@ public class InputManager
 	public void HandleInput()
 	{
 		//Input onkeydown without origin
-		foreach (var keyCommand in _keyCommands)
+		foreach(var keyCommand in _keyCommands)
 		{
-			if (Input.GetKeyDown(keyCommand._key))
+			if(Input.GetKeyDown(keyCommand._key))
 			{
 				keyCommand._command.Execute();
 			}
 		}
 		//Input onkeydown with origin
-		foreach (var keyCommand in _keyOriginCommands)
+		foreach(var keyCommand in _keyOriginCommands)
 		{
-			if (Input.GetKeyDown(keyCommand._key))
+			if(Input.GetKeyDown(keyCommand._key))
 			{
 				keyCommand._command.Execute(keyCommand._origin);
 			}
 		}
 		//Input onkey with origin
-		foreach (var keyCommand in _keyOriginCommandsDown)
+		foreach(var keyCommand in _keyOriginCommandsDown)
 		{
-			if (Input.GetKey(keyCommand._key))
+			if(Input.GetKey(keyCommand._key))
 			{
 				keyCommand._command.Execute(keyCommand._origin);
 			}
