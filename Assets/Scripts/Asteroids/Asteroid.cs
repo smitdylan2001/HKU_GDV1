@@ -69,22 +69,22 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	/// Check if asteroids are off screen and wrap them
 	/// </summary>
 	private void CheckPosition()
-	{   
-		if (Screen.width < Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).x - 100) 
-		{ 
-			ThisAsteroid.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector3(-100, 0, 0)).x, ThisAsteroid.transform.position.y, 0); 
+	{
+		if(Screen.width < Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).x - 100)
+		{
+			ThisAsteroid.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector3(-100, 0, 0)).x, ThisAsteroid.transform.position.y, 0);
 		}
-		else if (0 > Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).x + 100) 
-		{ 
-			ThisAsteroid.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x + 1, ThisAsteroid.transform.position.y, 0); 
+		else if(0 > Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).x + 100)
+		{
+			ThisAsteroid.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x + 1, ThisAsteroid.transform.position.y, 0);
 		}
-		else if (Screen.height < Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).y - 100) 
-		{ 
-			ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x, Camera.main.ScreenToWorldPoint(new Vector3(0, -100, 0)).y, 0); 
+		else if(Screen.height < Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).y - 100)
+		{
+			ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x, Camera.main.ScreenToWorldPoint(new Vector3(0, -100, 0)).y, 0);
 		}
-		else if (0 > Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).y + 100) 
-		{ 
-			ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x, Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y + 1, 0); 
+		else if(0 > Camera.main.WorldToScreenPoint(ThisAsteroid.transform.position).y + 100)
+		{
+			ThisAsteroid.transform.position = new Vector3(ThisAsteroid.transform.position.x, Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y + 1, 0);
 		}
 	}
 
@@ -126,25 +126,23 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable
 	{
 		Collider2D[] collisions = Physics2D.OverlapCircleAll(ThisAsteroid.transform.position, Size, _collisionMask);
 
-		if(!HasCollided)
+		if(collisions.Length > 0)
 		{
 			foreach(Collider2D collider in collisions)
 			{
 				if(collider != this._boxCollider2D)
 				{
-					HasCollided = true;
-
 					return true;
 				}
 			}
 		}
 
-		HasCollided = false;
 		return false;
 	}
 
 	public void OnCollision()
 	{
+		Debug.Log(ThisAsteroid.name + " Collided!");
 		Damage(1);
 	}
 }
