@@ -6,9 +6,9 @@
 public class Player : ICollideable, IDamageable<int>
 {
 	/// <summary> The Health member of the player. </summary>
-	public int Health { get; private set; }
+	public int _health;
 	/// <summary> Size of the Player. </summary>
-	public float Size { get; private set; }
+	public float _size;
 	/// <summary> ICollideable HasCollided Implementation. </summary>
 	public bool HasCollided { get; set; }
 
@@ -28,13 +28,13 @@ public class Player : ICollideable, IDamageable<int>
 	/// </summary>
 	public Player(int health = 100, float size = 0.25f)
 	{
-		Health = health;
-		Size = size;
+		_health = health;
+		_size = size;
 
 		Sprite = Resources.Load<Sprite>("Sprites/Player");
 		PlayerGO = new GameObject();
 		PlayerGO.name = "Player";
-		PlayerGO.transform.localScale = new Vector3(Size, Size, Size);
+		PlayerGO.transform.localScale = new Vector3(_size, _size, _size);
 
 		BoxCollider2D boxCollider2D = PlayerGO.AddComponent<BoxCollider2D>();
 		BoxCollider2D = boxCollider2D;
@@ -56,7 +56,7 @@ public class Player : ICollideable, IDamageable<int>
 	/// </summary>
 	public bool IsColliding()
 	{
-		Collider2D[] collisions = Physics2D.OverlapCircleAll(PlayerGO.transform.position, Size, CollisionMask);
+		Collider2D[] collisions = Physics2D.OverlapCircleAll(PlayerGO.transform.position, _size, CollisionMask);
 
 		if(!HasCollided)
 		{
@@ -80,9 +80,12 @@ public class Player : ICollideable, IDamageable<int>
 	/// <param name="damageTaken"> How much damage will be taken. </param>
 	public void Damage(int damageTaken)
 	{
-		Health -= damageTaken;
+		_health -= damageTaken;
 	}
 
+	/// <summary>
+	/// ICollideable OnCollision Implementation.
+	/// </summary>
 	public void OnCollision()
 	{
 		Damage(1);

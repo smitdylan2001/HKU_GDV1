@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AsteroidsManager
 {
+	/// <summary> AsteroidDestroyed Action. </summary>
 	public System.Action _asteroidDestroyed;
 
+	/// <summary> Instance of an ObjectPool with Asteroid as Type. </summary>
 	private ObjectPool<Asteroid> _asteroidPool;
 
 	/// <summary>
@@ -36,13 +35,13 @@ public class AsteroidsManager
 	private void OnAsteroidDestroyed(Asteroid asteroid)
 	{
 		_asteroidPool.ReturnObjectToInactive(asteroid);
-		
+
 		if(asteroid.Size > 0.3)
 		{
 			SpawnAsteroid(2, asteroid.Size / 2, asteroid.ThisAsteroid.transform.position);
 		}
 
-		CollisionManager.Collideables.Remove(asteroid);
+		CollisionManager.COLLIDEABLES.Remove(asteroid);
 	}
 
 	/// <summary>
@@ -53,7 +52,7 @@ public class AsteroidsManager
 		for(int i = 0; i < amount; i++)
 		{
 			Asteroid asteroid = _asteroidPool.RequestItem();
-			CollisionManager.Collideables.Add(asteroid);
+			CollisionManager.COLLIDEABLES.Add(asteroid);
 		}
 	}
 
@@ -67,7 +66,7 @@ public class AsteroidsManager
 			for(int i = 0; i < amount; i++)
 			{
 				Asteroid asteroid = _asteroidPool.RequestItem(size, startPos, Random.Range(0, 360));
-				CollisionManager.Collideables.Add(asteroid);
+				CollisionManager.COLLIDEABLES.Add(asteroid);
 			}
 		}
 	}

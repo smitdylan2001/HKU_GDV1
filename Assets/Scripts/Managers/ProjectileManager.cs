@@ -1,13 +1,13 @@
 ﻿public class ProjectileManager
 {
-	public static ObjectPool<Bullet> _bulletPool;
+	public static ObjectPool<Bullet> BULLET_POOL;
 
 	/// <summary>
 	/// Adds the object pool and adds needed listeners
 	/// </summary>
 	public ProjectileManager()
 	{
-		_bulletPool = new ObjectPool<Bullet>();
+		BULLET_POOL = new ObjectPool<Bullet>();
 
 		EventManager<Bullet>.AddListener(EventType.ON_ASTEROID_DESTROYED, DestroyProjectile);
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, Update);
@@ -18,7 +18,7 @@
 	/// </summary>
 	public void Update()
 	{
-		foreach (Bullet projectile in _bulletPool._activePool) 
+		foreach(Bullet projectile in BULLET_POOL._activePool)
 		{
 			projectile.Update();
 		}
@@ -29,6 +29,6 @@
 	/// </summary>
 	private void DestroyProjectile(Bullet bullet)
 	{
-		_bulletPool.ReturnObjectToInactive(bullet);
+		BULLET_POOL.ReturnObjectToInactive(bullet);
 	}
 }

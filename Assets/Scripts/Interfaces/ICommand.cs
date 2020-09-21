@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿/// <summary>
+/// ICommand Class with basic Execute Method.
+/// </summary>
 public interface ICommand
 {
     void Execute();

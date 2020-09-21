@@ -2,17 +2,22 @@
 
 public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<int>
 {
-	//public System.Action<Asteroid> _onDestroy;
+	/// <summary> Reference to the Asteroid GameObject. </summary>
 	public GameObject ThisAsteroid { get; private set; }
+	/// <summary> The Size of the Asteroid. </summary>
 	public float Size { get; private set; }
+	/// <summary> Returns if the Asteroids is Active or not. </summary>
 	public bool Active { get; set; }
 	/// <summary> ICollideable HasCollided Implementation. </summary>
 	public bool HasCollided { get; set; }
 
 	/// <summary> Which Layers to check for collision. </summary>
 	private LayerMask _collisionMask;
+	/// <summary> In which direction the Asteroid is moving. </summary>
 	private Vector3 _movementDirection;
+	/// <summary> Reference to the SpriteRenderer component. </summary>
 	private SpriteRenderer _spriteRenderer;
+	/// <summary> Reference to the BoxCollider2D Component. </summary>
 	private BoxCollider2D _boxCollider2D;
 
 	/// <summary>
@@ -141,6 +146,9 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 		return false;
 	}
 
+	/// <summary>
+	/// ICollideable OnCollision Implementation.
+	/// </summary>
 	public void OnCollision()
 	{
 		Debug.Log(ThisAsteroid.name + " Collided!");

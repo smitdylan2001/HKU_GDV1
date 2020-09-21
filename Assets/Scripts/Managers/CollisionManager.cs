@@ -6,33 +6,42 @@ using System.Linq;
 /// </summary>
 public static class CollisionManager
 {
-	public static List<ICollideable> Collideables { get; private set; }
+	/// <summary> List that holds all the ICollideable within the scene. </summary>
+	public static List<ICollideable> COLLIDEABLES;
 
-	private static List<ICollideable> _onCollisionColliders;
+	/// <summary> 
+	/// A seperate list that holds all the ICollideables that return true on their 'IsColliding' methods. 
+	/// These ICollideables will then be called after all the collisions have happened as to negate possible errors.
+	/// </summary>
+	private static List<ICollideable> ON_COLLISION_COLLIDEABLES;
 
+	/// <summary> Initialize the Collision Manager Properties and Methods. </summary>
 	public static void Init()
 	{
-		Collideables = new List<ICollideable>();
-		_onCollisionColliders = new List<ICollideable>();
+		COLLIDEABLES = new List<ICollideable>();
+		ON_COLLISION_COLLIDEABLES = new List<ICollideable>();
 	}
 
+	/// <summary> Update function that get's called every frame within the Game Manager. </summary>
 	public static void Update()
 	{
-		foreach(ICollideable collideable in Collideables.ToList())
+		// Get all the Collisions that happen within the current frame.
+		foreach(ICollideable collideable in COLLIDEABLES.ToList())
 		{
 			if(collideable.IsColliding())
 			{
-				_onCollisionColliders.Add(collideable);
+				ON_COLLISION_COLLIDEABLES.Add(collideable);
 			}
 		}
 
-		if(_onCollisionColliders.Count > 0)
+		// Call the OnCollision methods for all the collisions that happened.
+		if(ON_COLLISION_COLLIDEABLES.Count > 0)
 		{
-			foreach(ICollideable onCollisionCollideable in _onCollisionColliders.ToList())
+			foreach(ICollideable onCollisionCollideable in ON_COLLISION_COLLIDEABLES.ToList())
 			{
 				onCollisionCollideable.OnCollision();
 			}
-			_onCollisionColliders.Clear();
+			ON_COLLISION_COLLIDEABLES.Clear();
 		}
 	}
 }

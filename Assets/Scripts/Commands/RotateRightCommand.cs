@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This class is used to Rotate the Player right.
+/// </summary>
 public class RotateRightCommand : IGameObjectCommand
 {
 	private float _rotationPower = 150;
