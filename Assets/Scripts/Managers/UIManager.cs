@@ -6,10 +6,15 @@ using TMPro;
 
 public static class UIManager
 {
+	/// <summary> This is the dictionary that keeps track of all the text UI elements in the game </summary>
     public static Dictionary<string,TextMeshProUGUI> _uiTextElements = new Dictionary<string,TextMeshProUGUI>();
 
+	/// <summary> This is the canvas on which the UI elements get put on </summary>
     public static GameObject Canvas { get; set; }
 
+	/// <summary>
+	/// This gets the main canvas in the scene
+	/// </summary>
     public static void FindCanvas()
     {
         Canvas = GameObject.FindObjectOfType<Canvas>().gameObject;
