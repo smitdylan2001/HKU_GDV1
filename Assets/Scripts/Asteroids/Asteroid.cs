@@ -152,6 +152,6 @@ public class Asteroid : ICollideable, IDamageable<int>, IPoolable, IScoreable<in
 	/// </summary>
 	public void AddScore(int scoreToAdd)
 	{
-		ScoreManager.Score += scoreToAdd;
+		ScoreManager.UpdateScore(scoreToAdd);
 	}
 }

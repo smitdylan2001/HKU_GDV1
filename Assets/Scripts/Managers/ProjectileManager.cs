@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-public class ProjectileManager
+﻿public class ProjectileManager
 {
 	public static ObjectPool<Bullet> _bulletPool;
 
@@ -13,7 +11,6 @@ public class ProjectileManager
 
 		EventManager<Bullet>.AddListener(EventType.ON_ASTEROID_DESTROYED, DestroyProjectile);
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, Update);
-		
 	}
 
 	/// <summary>
