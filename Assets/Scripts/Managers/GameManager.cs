@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
 
 	private void AddUIEventListeners()
 	{
-		EventManager<int>.AddListener(EventType.ON_UI_UPDATE,ScoreManager.AddScore);
+		EventManager<int>.AddListener(EventType.ON_UI_UPDATE,ScoreManager.UpdateScore);
 	}
 
 	private void SetAndPopulateInput()
