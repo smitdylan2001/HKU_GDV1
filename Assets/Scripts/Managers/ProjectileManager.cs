@@ -9,7 +9,7 @@ public class ProjectileManager
 		_bulletPool = new ObjectPool<Bullet>();
 
 		EventManager<Bullet>.AddListener(EventType.ON_ASTEROID_DESTROYED, DestroyProjectile);
-		EventManager.AddListener(EventType.ON_PHYSICS_UPDATE, Update);
+		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, Update);
 		
 	}
 
