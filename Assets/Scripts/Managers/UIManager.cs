@@ -6,12 +6,7 @@ using TMPro;
 
 public static class UIManager
 {
-
-    /// <summary>
-    /// This is the list that keeps track of all text elements
-    /// TODO: Make this a dictionary to make
-    /// </summary>
-    public static List<TextMeshProUGUI> _uiTextElements = new List<TextMeshProUGUI>();
+    public static Dictionary<string,TextMeshProUGUI> _uiTextElements = new Dictionary<string,TextMeshProUGUI>();
 
     public static GameObject Canvas { get; set; }
 
@@ -19,7 +14,6 @@ public static class UIManager
     {
         Canvas = GameObject.FindObjectOfType<Canvas>().gameObject;
     }
-
 
     /// <summary>
     /// Generates a piece of text on a position given by the user
@@ -43,11 +37,10 @@ public static class UIManager
         {
             Debug.LogError("UIManager can't add UI element without a canvas as its parent");
         }
-        _uiTextElements.Add(txt);
+        _uiTextElements.Add(editorName,txt);
 		txt.fontSize = fontSize;
 		txt.text = text;
     }
-
 
 	/// <summary>
 	/// Updates a text element with new text (for instance updating score)
@@ -58,5 +51,4 @@ public static class UIManager
     {
         textMesh.text = newText;
     }
-
 }
