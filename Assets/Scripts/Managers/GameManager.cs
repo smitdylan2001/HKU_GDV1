@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 	public ProjectileManager ProjectileManager { get; set; }
 
 	/// <summary> The inputManager that handles all playerinput (i.e. moving or shooting) </summary>
-	public InputManager inputManager { get; private set; }
+	public InputManager InputManager { get; private set; }
 
 	private void Start()
 	{
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
 	{
 		EventManager.InvokeEvent(EventType.ON_LOGIC_UPDATE);
 
-		inputManager.HandleInput();
+		InputManager.HandleInput();
 	}
 
 	private void FixedUpdate()
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void PopulateGameLogicUpdateEvent()
 	{
-		inputManager.HandleInput();
+		InputManager.HandleInput();
 
 		EventManager.AddListener(EventType.ON_LOGIC_UPDATE, _logicUpdate);
 	}
@@ -124,14 +124,14 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void SetAndPopulateInput()
 	{
-		inputManager = new InputManager();
+		InputManager = new InputManager();
 		ShootCommand shootCommand = new ShootCommand();
 		ThrustCommand thrustCommand = new ThrustCommand();
 		RotateLeftCommand rotateLeftCommand = new RotateLeftCommand();
 		RotateRightCommand rotateRightCommand = new RotateRightCommand();
-		inputManager.BindInputToCommandWithOrigin(KeyCode.Space, shootCommand, Player.PlayerGO);
-		inputManager.BindInputToCommandWithOriginDown(KeyCode.W, thrustCommand, Player.PlayerGO);
-		inputManager.BindInputToCommandWithOriginDown(KeyCode.A, rotateLeftCommand, Player.PlayerGO);
-		inputManager.BindInputToCommandWithOriginDown(KeyCode.D, rotateRightCommand, Player.PlayerGO);
+		InputManager.BindInputToCommandWithOrigin(KeyCode.Space, shootCommand, Player.PlayerGO);
+		InputManager.BindInputToCommandWithOriginDown(KeyCode.W, thrustCommand, Player.PlayerGO);
+		InputManager.BindInputToCommandWithOriginDown(KeyCode.A, rotateLeftCommand, Player.PlayerGO);
+		InputManager.BindInputToCommandWithOriginDown(KeyCode.D, rotateRightCommand, Player.PlayerGO);
 	}
 }
