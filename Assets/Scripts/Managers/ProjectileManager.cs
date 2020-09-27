@@ -18,7 +18,7 @@
 	/// </summary>
 	public void Update()
 	{
-		foreach(Bullet projectile in BULLET_POOL._activePool)
+		foreach(Bullet projectile in BULLET_POOL.ActivePool)
 		{
 			projectile.Update();
 		}

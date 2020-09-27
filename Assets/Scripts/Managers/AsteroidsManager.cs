@@ -23,7 +23,7 @@ public class AsteroidsManager
 	/// </summary>
 	public void PhysicsUpdate()
 	{
-		foreach(Asteroid asteroid in _asteroidPool._activePool)
+		foreach(Asteroid asteroid in _asteroidPool.ActivePool)
 		{
 			asteroid.UpdateAsteroid();
 		}
@@ -61,7 +61,7 @@ public class AsteroidsManager
 	/// </summary>
 	private void SpawnAsteroid(int amount, float size, Vector3 startPos)
 	{
-		if(_asteroidPool._activePool.Count < 35)
+		if(_asteroidPool.ActivePool.Count < 35)
 		{
 			for(int i = 0; i < amount; i++)
 			{
